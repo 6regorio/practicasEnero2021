@@ -32,7 +32,7 @@ public class MiPerfilPrivado {
 	public void testeoDniEscrito() {
 		driver.findElement(By.xpath("//ion-segment-button[contains(.,'Perfil')]")).click();
 		driver.findElement(By.cssSelector(".ion-page:nth-child(2) .md:nth-child(4) .icon-rotate-collapsed")).click();
-		Assert.assertEquals(driver.findElement(dniLocator).isDisplayed(), true);
+		Assert.assertEquals(driver.findElement(dniLocator).isDisplayed(), true); 
 	}
 
 	@Test
