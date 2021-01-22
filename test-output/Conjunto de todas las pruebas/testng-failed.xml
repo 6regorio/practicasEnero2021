@@ -1,34 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="Failed suite [Conjunto de todas las pruebas]" guice-stage="DEVELOPMENT">
-  <test thread-count="5" name="Pruebas con identificacion necesaria(failed)">
+  <test thread-count="5" name="Pruebas sin identificacion(failed)">
     <classes>
-      <class name="zz210120.IniciarSesionDniElectronico">
+      <class name="zz210120.EncontrarFarmaciaConFecha">
         <methods>
-          <include name="identificarmeVistaEscritorio"/>
-          <include name="tearDoown"/>
-          <include name="cargaPropiedades"/>
-        </methods>
-      </class> <!-- zz210120.IniciarSesionDniElectronico -->
-      <class name="zz210120.MiPerfilPrivado">
-        <methods>
-          <include name="testeoMisProfesionales"/>
+          <include name="encuentraFarmaciaParametros" invocation-numbers="2"/>
+          <include name="cargarPaginaInicial"/>
           <include name="cargaPropiedadesMásIdentificarSiNoSeHaHecho"/>
-          <include name="testeoDniEscrito"/>
-          <include name="historiaClinicaSNS"/>
         </methods>
-      </class> <!-- zz210120.MiPerfilPrivado -->
-      <class name="zz210120.ComprobarCarpetaSalud6Links">
-        <methods>
-          <include name="comprobarCarpetaDeSaludMisCitas"/>
-          <include name="comprobarCarpetaDeSaludInformes"/>
-          <include name="comprobarCarpetaDeSaludListaEspera"/>
-          <include name="comprobarCarpetaDeSaludVacunas"/>
-          <include name="cargaPropiedadesMásIdentificarSiNoSeHaHecho"/>
-          <include name="comprobarCarpetaDeSaludAlergias"/>
-          <include name="comprobarCarpetaDeSaludMedicacion"/>
-        </methods>
-      </class> <!-- zz210120.ComprobarCarpetaSalud6Links -->
+      </class> <!-- zz210120.EncontrarFarmaciaConFecha -->
     </classes>
-  </test> <!-- Pruebas con identificacion necesaria(failed) -->
+  </test> <!-- Pruebas sin identificacion(failed) -->
 </suite> <!-- Failed suite [Conjunto de todas las pruebas] -->
