@@ -1,12 +1,14 @@
-package zz210120;
+package privado;
 
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.testng.Reporter;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -77,8 +79,18 @@ public class ComprobarCarpetaSalud6Links {
 		String handleVentana2 = listadoHanleVentanas.iterator().next();
 		driver.switchTo().window(handleVentana2);
 		Assert.assertEquals(handleVentana2, driver.getWindowHandle(), "No estás en la pestaña adecuada");
-		Assert.assertTrue(driver.findElement(By.xpath("//span[contains(.,'MANTENIMIENTO')]")).isDisplayed());
+		boolean ListaDeEspera = false;
+		try {
+			driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+			if (driver.findElement(By.xpath("//span[contains(.,'Lista de espera')]")).isDisplayed()) {				
+				ListaDeEspera = true;
+			}
+		} catch (NoSuchElementException e) {
+			Reporter.log("No se ha cargado correctamente la página de lista de espera");
+		}
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.close();
 		driver.switchTo().window(handleVentana1);
+		Assert.assertTrue(ListaDeEspera);
 	}
 }

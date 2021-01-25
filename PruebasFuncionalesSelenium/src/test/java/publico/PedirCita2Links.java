@@ -1,4 +1,4 @@
-package zz210120;
+package publico;
 
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
@@ -9,6 +9,8 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import privado.IniciarSesionDniElectronico;
 
 public class PedirCita2Links {
 

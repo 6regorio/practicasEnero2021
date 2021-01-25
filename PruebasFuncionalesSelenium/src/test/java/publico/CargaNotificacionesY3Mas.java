@@ -1,4 +1,4 @@
-package zz210120;
+package publico;
 
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -9,6 +9,8 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import privado.IniciarSesionDniElectronico;
 
 public class CargaNotificacionesY3Mas {
 
@@ -88,7 +90,6 @@ public class CargaNotificacionesY3Mas {
 		driver.close(); // cierro la ventana uno
 		driver.switchTo().window(handleVentana2); // cambio/activo a la ventana dos para que trabaje con ella
 		Assert.assertEquals(handleVentana2, driver.getWindowHandle(), "No estás en la pestaña adecuada");
-
 		Assert.assertTrue(driver.findElement(contactoAssert).isDisplayed());
 	}
 
