@@ -3,10 +3,13 @@ package privado;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.JOptionPane;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.BeforeClass;
@@ -20,11 +23,22 @@ public class ComprobarCarpetaSalud6Links {
 	public void cargaPropiedadesMásIdentificarSiNoSeHaHecho() {
 		driver = IniciarSesionDniElectronico.driver;
 		if (driver == null) {
-			System.setProperty("webdriver.chrome.driver", "./src/test/resources/chromedriver/chromedriver.exe");
-			driver = new ChromeDriver();
+			String dni = JOptionPane.showInputDialog("Escriba su DNI (12345678Z)");
+			String password = JOptionPane.showInputDialog("Escriba la clave permanente");
+			String navegador = JOptionPane.showInputDialog("¿Qué navegador desea usar? [Firefox(f) o Chrome(c)]");
+			if (navegador.toLowerCase().startsWith("c")) {
+				System.setProperty("webdriver.chrome.driver", "./src/test/resources/chromedriver/chromedriver.exe");
+				Reporter.log("Se usará el navegador Chrome");
+				driver = new ChromeDriver();
+			} else {
+				System.setProperty("webdriver.gecko.driver", "./src/test/resources/firefoxdriver/geckodriver.exe");
+				Reporter.log("Se usará el navegador Firefox");
+				driver = new FirefoxDriver();
+			}
+			String baseURL = "https://sescampre.jccm.es/portalsalud/app/inicio";
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-			driver.manage().window().maximize();
-			new IniciarSesionDniElectronico().iniciarSesionConAssertsIncluidos(driver);
+			driver.get(baseURL);
+			new IniciarSesionDniElectronico().iniciarSesionConAssertsIncluidos(driver, dni, password);
 		}
 	}
 
@@ -32,9 +46,7 @@ public class ComprobarCarpetaSalud6Links {
 	public void comprobarCarpetaDeSaludAlergias() throws InterruptedException {
 		driver.findElement(By.xpath("//ion-segment-button[contains(.,'Carpeta de Salud')]")).click();
 		driver.findElement(By.xpath("//span[contains(.,'ALERGIAS')]")).click();
-		Assert.assertTrue(
-				driver.findElement(By.xpath("//ion-col[contains(.,'No existen alergias registradas en el sistema')]"))
-						.isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//h2[contains(.,'METALES')]")).isDisplayed());
 	}
 
 	@Test
@@ -55,9 +67,7 @@ public class ComprobarCarpetaSalud6Links {
 	public void comprobarCarpetaDeSaludMisCitas() throws InterruptedException {
 		driver.findElement(By.xpath("//ion-segment-button[contains(.,'Carpeta de Salud')]")).click();
 		driver.findElement(By.xpath("//span[contains(.,'CITAS')]")).click();
-		Assert.assertTrue(
-				driver.findElement(By.xpath("//ion-col[contains(.,'No existen citas registradas en el sistema')]"))
-						.isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//h2[contains(.,'DIGESTIVO')]")).isDisplayed());
 	}
 
 	@Test
@@ -82,7 +92,7 @@ public class ComprobarCarpetaSalud6Links {
 		boolean ListaDeEspera = false;
 		try {
 			driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-			if (driver.findElement(By.xpath("//span[contains(.,'Lista de espera')]")).isDisplayed()) {				
+			if (driver.findElement(By.xpath("//span[contains(.,'Lista de espera')]")).isDisplayed()) {
 				ListaDeEspera = true;
 			}
 		} catch (NoSuchElementException e) {
