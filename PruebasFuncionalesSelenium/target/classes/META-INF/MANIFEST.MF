@@ -1,5 +1,16 @@
 Manifest-Version: 1.0
 Built-By: MB773HM
 Build-Jdk: 11.0.9
+Class-Path: lib/selenium-java-3.141.59.jar lib/selenium-api-3.141.59.jar
+  lib/selenium-chrome-driver-3.141.59.jar lib/selenium-edge-driver-3.141
+ .59.jar lib/selenium-firefox-driver-3.141.59.jar lib/selenium-ie-driver
+ -3.141.59.jar lib/selenium-opera-driver-3.141.59.jar lib/selenium-remot
+ e-driver-3.141.59.jar lib/selenium-safari-driver-3.141.59.jar lib/selen
+ ium-support-3.141.59.jar lib/byte-buddy-1.8.15.jar lib/commons-exec-1.3
+ .jar lib/guava-25.0-jre.jar lib/jsr305-1.3.9.jar lib/checker-compat-qua
+ l-2.0.0.jar lib/error_prone_annotations-2.1.3.jar lib/j2objc-annotation
+ s-1.1.jar lib/animal-sniffer-annotations-1.14.jar lib/okhttp-3.11.0.jar
+  lib/okio-1.14.0.jar lib/jcommander-1.78.jar
+Main-Class: controlador.Main
 Created-By: Maven Integration for Eclipse
 
