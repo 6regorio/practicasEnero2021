@@ -19,23 +19,27 @@ import org.testng.annotations.Test;
 public class IniciarSesionDniElectronico {
 
 	public static WebDriver driver;
-	private String baseURL;
-	private String dni;
-	private String password;
-	private String navegador;
+	public static String baseURL;
+	public static String dni;
+	public static String password;
+	public static String navegador;
+	public static String cerficadoOClavePermanente;
 
-	@BeforeSuite
-	public void cargaPropiedades() {
-		this.dni = JOptionPane.showInputDialog("Escriba su DNI (12345678Z)");
-		this.password = JOptionPane.showInputDialog("Escriba la clave permanente");
-		this.navegador = JOptionPane.showInputDialog("¿Qué navegador desea usar? [Firefox(f) o Chrome(c)]");
+	public static void iniciarSesionPreguntandoDatos() {
+		cerficadoOClavePermanente = JOptionPane
+				.showInputDialog("¿Qué certificado desea usar? [DNIe(d) o Clave premanente(c)]");
+		if (cerficadoOClavePermanente.toLowerCase().startsWith("c")) {
+			dni = JOptionPane.showInputDialog("Escriba su DNI (12345678Z)");
+			password = JOptionPane.showInputDialog("Escriba la clave permanente");
+			navegador = JOptionPane.showInputDialog("¿Qué navegador desea usar? [Firefox(f) o Chrome(c)]");
+		} else {
+			navegador = "Chrome";
+		}
 		if (navegador.toLowerCase().startsWith("c")) {
 			System.setProperty("webdriver.chrome.driver", "./src/test/resources/chromedriver/chromedriver.exe");
-			Reporter.log("Se usará el navegador Chrome");
 			driver = new ChromeDriver();
 		} else {
 			System.setProperty("webdriver.gecko.driver", "./src/test/resources/firefoxdriver/geckodriver.exe");
-			Reporter.log("Se usará el navegador Firefox");
 			driver = new FirefoxDriver();
 		}
 		baseURL = "https://sescampre.jccm.es/portalsalud/app/inicio";
@@ -43,9 +47,19 @@ public class IniciarSesionDniElectronico {
 		driver.get(baseURL);
 	}
 
+	@BeforeSuite
+	public void cargaPropiedades() {
+		iniciarSesionPreguntandoDatos();
+	}
+
 	@Test
-	public void identificarmeVistaEscritorio() throws InterruptedException {
+	public void realizarAutenticacion() throws InterruptedException {
 		iniciarSesionConAssertsIncluidos(driver, dni, password);
+		Reporter.log(cerficadoOClavePermanente.toLowerCase().startsWith("c")
+				? "Se ha elegido la autenticación mediante Clave premanente. "
+				: "Se ha elegido la autenticación mediante DNI electrónico. ");
+		Reporter.log(navegador.toLowerCase().startsWith("c") ? "Se usará el navegador Chrome"
+				: "Se usará el navegador Firefox");
 	}
 
 	public void iniciarSesionConAssertsIncluidos(WebDriver d, String dni, String password) {
@@ -66,36 +80,18 @@ public class IniciarSesionDniElectronico {
 		List<WebElement> botonesAceptar = d.findElements(By.xpath("//ion-button[contains(.,'Aceptar')]"));
 		botonesAceptar.get(0).click();
 
-		// Entrar con DNI electrónico
-		// d.findElement(By.partialLinkText("Acce")).click();
+		if (cerficadoOClavePermanente.toLowerCase().startsWith("c")) {
+			// Entrar con clave permanente
+			List<WebElement> botonesAcceder = d.findElements(By.partialLinkText("Acce"));
+			botonesAcceder.get(1).click();
+			d.findElement(By.cssSelector("input#id_owner")).sendKeys(dni);
+			d.findElement(By.cssSelector("input#pin")).sendKeys(password);
+			d.findElement(By.cssSelector("input#pin")).submit();
+		} else {
+			// Entrar con DNI electrónico
+			d.findElement(By.partialLinkText("Acce")).click();
+		}
 
-		// Entrar con clave permanente
-		List<WebElement> botonesAcceder = d.findElements(By.partialLinkText("Acce"));
-		botonesAcceder.get(1).click();
-
-		d.findElement(By.cssSelector("input#id_owner")).sendKeys(dni);
-		d.findElement(By.cssSelector("input#pin")).sendKeys(password);
-		d.findElement(By.cssSelector("input#pin")).submit();
-
-		// Ahora salta un aviso de navegación privada que tengo que quitar
-		/*
-		 * d.findElement(By.cssSelector("button#details-button")).click();
-		 * d.findElement(By.
-		 * partialLinkText("Proceed to dcentricapigatewaypre.sescam.jclm.es (unsafe)")).
-		 * click();
-		 */
-
-		// Error de CIP inválido
-		// Assert.assertTrue(d.findElement(By.id("alert-1-hdr")).isDisplayed());
-		// d.findElement(By.xpath("//span[contains(.,'Acep')]")).click();
-		/*
-		 * // Comprobar que aparece el nombre GREGORIO
-		 * Assert.assertTrue(driver.findElement(By.xpath(
-		 * "//ion-button[contains(.,'GREGORIO')]")).isDisplayed()); // Comprobar que
-		 * aparece el botón de apagar
-		 * Assert.assertTrue(driver.findElement(By.cssSelector("div > .button-clear")).
-		 * isDisplayed());
-		 */
 		boolean repetir = true;
 		do {
 			try {
