@@ -39,6 +39,8 @@ public class InicioSesionRequeridoFirefox {
 			driver.get(baseURL);
 		}
 	}
+	
+
 
 	@Test(priority = 1, groups = "Inicia sesión")
 	public void realizarAutenticacionP() throws InterruptedException {
