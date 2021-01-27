@@ -1,15 +1,18 @@
 package publico;
 
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class ProbandoVariosNavegadores {
@@ -70,6 +73,21 @@ public class ProbandoVariosNavegadores {
 	@Test
 	public void mostarNotificaciones() {
 		mostarNotificaciones(driverC, driverF);
+	}
+
+	@Test
+	public void paginaInicioCitaPreviaAtencionHospitalaria() {
+		paginaInicioCitaPreviaAtencionHospitalaria(driverC, driverF);
+	}
+
+	@Test
+	public void paginaInicioCitaPreviaAtencionPrimaria() {
+		paginaInicioCitaPreviaAtencionPrimaria(driverC, driverF);
+	}
+
+	@Test(dataProvider = "EncoFarmProvider")
+	public void comprobarClickTelefono(String provincia, String pueblo, String year, String mes, String dia) {
+		encuentraFarmaciaParametros(provincia, pueblo, year, mes, dia, driverC, driverF);
 	}
 
 	public void comprobarClickTelefono(WebDriver... drivers) {
@@ -178,6 +196,98 @@ public class ProbandoVariosNavegadores {
 						.findElement(By.xpath("//h1[contains(.,'Reclamaciones centros sanitarios')]")).isDisplayed());
 			}
 		}
+	}
+
+	public void paginaInicioCitaPreviaAtencionPrimaria(WebDriver... drivers) {
+		for (int i = 0; i < 2; i++) {
+			WebDriver currentDriver = drivers[i];
+			if (currentDriver != null) {
+				saberSiEsChromeOFirefox(i);
+				currentDriver.get("https://sescampre.jccm.es/portalsalud/app/inicio");
+				currentDriver.findElement(By.xpath("//span[contains(.,'PEDIR CITA')]")).click();
+				currentDriver.findElement(By.xpath("//span[contains(.,'PRIMARIA')]")).click();
+				currentDriver.switchTo().frame(0);
+				WebElement imagentarjeta = currentDriver.findElement(By.id("tarjetaportada"));
+				Assert.assertTrue(imagentarjeta.isDisplayed());
+			}
+		}
+	}
+
+	public void paginaInicioCitaPreviaAtencionHospitalaria(WebDriver... drivers) {
+		for (int i = 0; i < 2; i++) {
+			WebDriver currentDriver = drivers[i];
+			if (currentDriver != null) {
+				saberSiEsChromeOFirefox(i);
+				currentDriver.get("https://sescampre.jccm.es/portalsalud/app/inicio");
+				currentDriver.findElement(By.xpath("//span[contains(.,'PEDIR CITA')]")).click();
+				currentDriver.findElement(By.xpath("//span[contains(.,'HOSPITALARIA')]")).click();
+				currentDriver.switchTo().frame(0);
+				Assert.assertEquals(currentDriver.findElement(By.id("ot1")).getText(),
+						"Bienvenido a Citación Especializada");
+			}
+		}
+	}
+
+	public void encuentraFarmaciaParametros(String provincia, String pueblo, String year, String mes, String dia,
+			WebDriver... drivers) {
+
+		for (int i = 0; i < 2; i++) {
+			WebDriver currentDriver = drivers[i];
+			if (currentDriver != null) {
+				saberSiEsChromeOFirefox(i);
+
+				currentDriver.findElement(By.xpath("//span[contains(.,'ENCONTRAR')]")).click();
+
+				currentDriver.findElement(By.xpath("//ion-item[contains(.,'Provincia')]")).click();
+				currentDriver.findElement(By.xpath("//button[contains(.,'" + provincia + "')]")).click();
+				currentDriver.findElement(By.xpath("//button[contains(.,'Ok')]")).click();
+
+				currentDriver.findElement(By.xpath("//ion-item[contains(.,'Localidad')]")).click();
+				currentDriver.findElement(By.xpath("//button[contains(.,'" + pueblo + "')]")).click();
+				currentDriver.findElement(By.xpath("//button[contains(.,'Ok')]")).click();
+
+				currentDriver.findElement(By.xpath("//ion-item[contains(.,'Fecha')]")).click();
+				currentDriver.findElement(By.cssSelector("span.mat-button-wrapper")).click();
+				currentDriver.findElement(By.cssSelector("td[aria-label='" + year + "']")).click();
+				currentDriver.findElement(By.xpath("//td[contains(.,'" + mes + "')]")).click();
+				currentDriver.findElement(By.xpath("//td[contains(.,'" + dia + "')]")).click();
+
+				currentDriver.findElement(By.xpath("//ion-button[contains(.,'Farmacias')]")).click();
+
+				List<WebElement> listaFarmacias = currentDriver.findElements(By.cssSelector("h3"));
+				System.out.println("Listado de farmacias el " + dia + "/" + mes + "/" + year);
+				listaFarmacias.forEach(o -> System.out.println(o.getText()));
+
+				if (pueblo.equals("ALARCON")) {
+					Assert.assertEquals("M", listaFarmacias.get(0).getText().substring(0, 1));
+
+					String handleVentana1 = currentDriver.getWindowHandle();
+					System.out.println(handleVentana1);
+
+					List<WebElement> listaFarmaciasMapa = currentDriver
+							.findElements(By.cssSelector("ion-item a.text-end"));
+					listaFarmaciasMapa.get(0).click();
+
+					Set<String> listadoHanleVentanas = currentDriver.getWindowHandles();
+					listadoHanleVentanas.remove(handleVentana1);
+					String handleVentana2 = listadoHanleVentanas.iterator().next();
+					currentDriver.switchTo().window(handleVentana1);
+					currentDriver.close();
+					currentDriver.switchTo().window(handleVentana2);
+					Assert.assertEquals(handleVentana2, currentDriver.getWindowHandle(),
+							"No estás en la pestaña adecuada");
+				}
+			}
+		}
+	}
+
+	@DataProvider(name = "EncoFarmProvider")
+	public Object[][] getData() {
+		// String provincia, String pueblo, String year, String mes, String dia
+		Object[][] data = { { "CUENCA", "ALARCON", "2020", "DIC", "30" },
+				{ "ALBACETE", "CILANCO", "2020", "FEB", "16" }, { "CIUDAD REAL", "ALAMILLO", "2019", "ENE", "11" },
+				{ "TOLEDO", "ACECA", "2018", "ABR", "25" } };
+		return data;
 	}
 
 	private void saberSiEsChromeOFirefox(int i) {
