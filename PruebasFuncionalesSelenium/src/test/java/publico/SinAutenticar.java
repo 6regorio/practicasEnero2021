@@ -55,47 +55,47 @@ public class SinAutenticar {
 		}
 	}
 
-	@Test
+	@Test(groups = "Comprobaciones sin iniciar sesión")
 	public void comprobarClickTelefono() {
 		comprobarClickTelefono(driverC, driverF);
 	}
 
-	@Test
+	@Test(groups = "Comprobaciones sin iniciar sesión")
 	public void comprobarEnlaceCoronavirus() {
 		comprobarEnlaceCoronavirus(driverC, driverF);
 	}
 
-	@Test
+	@Test(groups = "Comprobaciones sin iniciar sesión")
 	public void masPrivacidad() {
 		masPrivacidad(driverC, driverF);
 	}
 
-	@Test
+	@Test(groups = "Comprobaciones sin iniciar sesión")
 	public void masContacto() {
 		masContacto(driverC, driverF);
 	}
 
-	@Test
+	@Test(groups = "Comprobaciones sin iniciar sesión")
 	public void masAyuda() {
 		masAyuda(driverC, driverF);
 	}
 
-	@Test
+	@Test(groups = "Comprobaciones sin iniciar sesión")
 	public void mostarNotificaciones() {
 		mostarNotificaciones(driverC, driverF);
 	}
 
-	@Test
+	@Test(groups = "Comprobaciones sin iniciar sesión")
 	public void paginaInicioCitaPreviaAtencionHospitalaria() {
 		paginaInicioCitaPreviaAtencionHospitalaria(driverC, driverF);
 	}
 
-	@Test
+	@Test(groups = "Comprobaciones sin iniciar sesión")
 	public void paginaInicioCitaPreviaAtencionPrimaria() {
 		paginaInicioCitaPreviaAtencionPrimaria(driverC, driverF);
 	}
 
-	@Test(dataProvider = "EncoFarmProvider")
+	@Test(groups = "Búsqueda de farmacias", dataProvider = "EncoFarmProvider")
 	public void encuentraFarmaciaParametros(String provincia, String pueblo, String year, String mes, String dia) {
 		encuentraFarmaciaParametros(provincia, pueblo, year, mes, dia, driverC, driverF);
 	}
@@ -245,7 +245,7 @@ public class SinAutenticar {
 			WebDriver currentDriver = drivers[i];
 			if (currentDriver != null) {
 				saberSiEsChromeOFirefox(i);
-				currentDriver.get("https://sescampre.jccm.es/portalsalud/app/inicio");				
+				currentDriver.get("https://sescampre.jccm.es/portalsalud/app/inicio");
 				try {
 					currentDriver.findElement(By.xpath("//span[contains(.,'ENCONTRAR')]")).click();
 
@@ -267,7 +267,7 @@ public class SinAutenticar {
 
 					// Esperar a que cargue
 					WebDriverWait wait = new WebDriverWait(currentDriver, 30);
-					wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h3")));				
+					wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h3")));
 					List<WebElement> listaFarmacias = currentDriver.findElements(By.cssSelector("h3"));
 					System.out.println("Listado de farmacias el " + dia + "/" + mes + "/" + year);
 					listaFarmacias.forEach(o -> System.out.println(o.getText()));
@@ -284,16 +284,14 @@ public class SinAutenticar {
 
 						Set<String> listadoHanleVentanas = currentDriver.getWindowHandles();
 						listadoHanleVentanas.remove(handleVentana1);
-						String handleVentana2 = listadoHanleVentanas.iterator().next();
-						currentDriver.switchTo().window(handleVentana1);
-						currentDriver.close();
+						String handleVentana2 = listadoHanleVentanas.iterator().next();						
 						currentDriver.switchTo().window(handleVentana2);
-						Assert.assertEquals(handleVentana2, currentDriver.getWindowHandle(),
-								"No estás en la pestaña adecuada");
+						currentDriver.close();
+						currentDriver.switchTo().window(handleVentana1);
 					}
 				} catch (ElementNotInteractableException e) {
 					System.out.println("No se hizo click");
-					e.printStackTrace();					
+					e.printStackTrace();
 				}
 			}
 		}

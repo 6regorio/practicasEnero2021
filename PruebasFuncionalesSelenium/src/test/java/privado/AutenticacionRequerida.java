@@ -1,10 +1,19 @@
 package privado;
 
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -42,47 +51,47 @@ public class AutenticacionRequerida {
 		realizarAutenticacion(driverC, driverF);
 	}
 
-	@Test(priority = 2, groups = "MiPerfilPrivado", dependsOnMethods = "realizarAutenticacion")
+	@Test(priority = 2, groups = "Mi perfil privado", dependsOnMethods = "realizarAutenticacion")
 	public void miPerfilMisDatosDniEscrito() {
 		miPerfilMisDatosDniEscrito(driverC, driverF);
 	}
 
-	@Test(priority = 3, groups = "MiPerfilPrivado", dependsOnMethods = "realizarAutenticacion")
+	@Test(priority = 3, groups = "Mi perfil privado", dependsOnMethods = "realizarAutenticacion")
 	public void miPerfilMisProfesionalesCentroManzanares() {
 		miPerfilMisProfesionalesCentroManzanares(driverC, driverF);
 	}
 
-	@Test(priority = 3, groups = "MiPerfilPrivado", dependsOnMethods = "realizarAutenticacion")
+	@Test(priority = 3, groups = "Mi perfil privado", dependsOnMethods = "realizarAutenticacion")
 	public void historiaClinicaSNS() {
 		historiaClinicaSNS(driverC, driverF);
 	}
 
-	@Test(priority = 4, groups = "CarpetaSalud", dependsOnMethods = "realizarAutenticacion")
+	@Test(priority = 4, groups = "Carpeta Salud", dependsOnMethods = "realizarAutenticacion")
 	public void comprobarCarpetaDeSaludAlergias() {
 		comprobarCarpetaDeSaludAlergias(driverC, driverF);
 	}
 
-	@Test(priority = 4, groups = "CarpetaSalud", dependsOnMethods = "realizarAutenticacion")
+	@Test(priority = 4, groups = "Carpeta Salud", dependsOnMethods = "realizarAutenticacion")
 	public void comprobarCarpetaDeSaludInformes() {
 		comprobarCarpetaDeSaludInformes(driverC, driverF);
 	}
 
-	@Test(priority = 4, groups = "CarpetaSalud", dependsOnMethods = "realizarAutenticacion")
+	@Test(priority = 4, groups = "Carpeta Salud", dependsOnMethods = "realizarAutenticacion")
 	public void comprobarCarpetaDeSaludMedicacion() {
 		comprobarCarpetaDeSaludMedicacion(driverC, driverF);
 	}
 
-	@Test(priority = 4, groups = "CarpetaSalud", dependsOnMethods = "realizarAutenticacion")
+	@Test(priority = 4, groups = "Carpeta Salud", dependsOnMethods = "realizarAutenticacion")
 	public void comprobarCarpetaDeSaludMisCitas() {
 		comprobarCarpetaDeSaludMisCitas(driverC, driverF);
 	}
 
-	@Test(priority = 4, groups = "CarpetaSalud", dependsOnMethods = "realizarAutenticacion")
+	@Test(priority = 4, groups = "Carpeta Salud", dependsOnMethods = "realizarAutenticacion")
 	public void comprobarCarpetaDeSaludVacunas() {
 		comprobarCarpetaDeSaludVacunas(driverC, driverF);
 	}
 
-	@Test(priority = 4, groups = "CarpetaSalud", dependsOnMethods = "realizarAutenticacion")
+	@Test(priority = 4, groups = "Carpeta Salud", dependsOnMethods = "realizarAutenticacion")
 	public void comprobarCarpetaDeSaludListaEspera() {
 		comprobarCarpetaDeSaludListaEspera(driverC, driverF);
 	}
@@ -203,13 +212,28 @@ public class AutenticacionRequerida {
 		System.out.println(navegador);
 	}
 
-	private void pedirDniYPassword() {
-		dni = JOptionPane.showInputDialog("Escriba su DNI (12345678Z)");
-		JPasswordField pwd = new JPasswordField();
-		JOptionPane.showConfirmDialog(null, pwd, "Escriba la clave permanente", JOptionPane.OK_CANCEL_OPTION);
+	private void pedirDniYPassword() {		
+		JFrame frame = new JFrame();
+		JPanel panel = new JPanel(new BorderLayout(5, 5));		
+		JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
+		label.add(new JLabel("DNI (12345678Z)", SwingConstants.RIGHT));
+		label.add(new JLabel("Clave permanente", SwingConstants.RIGHT));
+		panel.add(label, BorderLayout.WEST);
+		JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
+		JTextField txtDni = new JTextField();
+		controls.add(txtDni);
+		JPasswordField txtPassword = new JPasswordField();
+		controls.add(txtPassword);
+		panel.add(controls, BorderLayout.CENTER);
+		JOptionPane.showMessageDialog(frame, panel, "Iniciar sesión", JOptionPane.QUESTION_MESSAGE);		
+		dni = txtDni.getText();
 		password = "";
-		for (char caracter : pwd.getPassword()) {
+		for (char caracter : txtPassword.getPassword()) {
 			password += caracter;
+		}
+		if(dni.isBlank()||(password.isBlank())) {
+			System.out.println("Cancelado por el usuario");
+			System.exit(1);
 		}
 	}
 
