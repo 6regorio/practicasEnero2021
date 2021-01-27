@@ -3,12 +3,12 @@
 <suite name="Conjunto de todas las pruebas" parallel="false">
 	<test name="Pruebas con identificacion necesaria">
 		<classes>
-			<class name="privado.InicioSesionRequerido" />
+			<class name="privado.AutenticacionRequerida" />
 		</classes>
 	</test>
 	<test name="Pruebas sin identificacion">
 		<classes>
-			<class name="publico.PruebasSinIniciarSesion" />
+			<class name="publico.SinAutenticar" />
 		</classes>
 	</test> 
 </suite>

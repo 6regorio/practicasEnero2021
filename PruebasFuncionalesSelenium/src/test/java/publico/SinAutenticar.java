@@ -3,11 +3,15 @@ package publico;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.BeforeClass;
@@ -15,24 +19,30 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-public class PruebasSinIniciarSesion {
+import privado.AutenticacionRequerida;
+
+public class SinAutenticar {
 
 	private WebDriver driverC;
 	private WebDriver driverF;
 
 	@BeforeClass
 	public void cargaPropiedadesMásIdentificarSiNoSeHaHecho() {
-
-		System.setProperty("webdriver.chrome.driver", "./src/test/resources/chromedriver/chromedriver.exe");
-		driverC = new ChromeDriver();
-		driverC.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		driverC.manage().window().maximize();
-
-		System.setProperty("webdriver.gecko.driver", "./src/test/resources/firefoxdriver/geckodriver.exe");
-		driverF = new FirefoxDriver();
-		driverF.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		driverF.manage().window().maximize();
-
+		driverF = AutenticacionRequerida.driverF;
+		driverC = AutenticacionRequerida.driverC;
+		// Código usado sólo cuando hago alguno de los test de esta clase por separado
+		if (driverC == null && driverF == null) {
+			System.setProperty("webdriver.chrome.driver", "./src/test/resources/chromedriver/chromedriver.exe");
+			driverC = new ChromeDriver();
+			driverC.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			driverC.manage().window().maximize();
+			driverC.get("https://sescampre.jccm.es/portalsalud/app/inicio");
+			System.setProperty("webdriver.gecko.driver", "./src/test/resources/firefoxdriver/geckodriver.exe");
+			driverF = new FirefoxDriver();
+			driverF.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			driverF.manage().window().maximize();
+			driverF.get("https://sescampre.jccm.es/portalsalud/app/inicio");
+		}
 	}
 
 	@BeforeMethod
@@ -86,7 +96,7 @@ public class PruebasSinIniciarSesion {
 	}
 
 	@Test(dataProvider = "EncoFarmProvider")
-	public void comprobarClickTelefono(String provincia, String pueblo, String year, String mes, String dia) {
+	public void encuentraFarmaciaParametros(String provincia, String pueblo, String year, String mes, String dia) {
 		encuentraFarmaciaParametros(provincia, pueblo, year, mes, dia, driverC, driverF);
 	}
 
@@ -235,47 +245,55 @@ public class PruebasSinIniciarSesion {
 			WebDriver currentDriver = drivers[i];
 			if (currentDriver != null) {
 				saberSiEsChromeOFirefox(i);
+				currentDriver.get("https://sescampre.jccm.es/portalsalud/app/inicio");				
+				try {
+					currentDriver.findElement(By.xpath("//span[contains(.,'ENCONTRAR')]")).click();
 
-				currentDriver.findElement(By.xpath("//span[contains(.,'ENCONTRAR')]")).click();
+					currentDriver.findElement(By.xpath("//ion-item[contains(.,'Provincia')]")).click();
+					currentDriver.findElement(By.xpath("//button[contains(.,'" + provincia + "')]")).click();
+					currentDriver.findElement(By.xpath("//button[contains(.,'Ok')]")).click();
 
-				currentDriver.findElement(By.xpath("//ion-item[contains(.,'Provincia')]")).click();
-				currentDriver.findElement(By.xpath("//button[contains(.,'" + provincia + "')]")).click();
-				currentDriver.findElement(By.xpath("//button[contains(.,'Ok')]")).click();
+					currentDriver.findElement(By.xpath("//ion-item[contains(.,'Localidad')]")).click();
+					currentDriver.findElement(By.xpath("//button[contains(.,'" + pueblo + "')]")).click();
+					currentDriver.findElement(By.xpath("//button[contains(.,'Ok')]")).click();
 
-				currentDriver.findElement(By.xpath("//ion-item[contains(.,'Localidad')]")).click();
-				currentDriver.findElement(By.xpath("//button[contains(.,'" + pueblo + "')]")).click();
-				currentDriver.findElement(By.xpath("//button[contains(.,'Ok')]")).click();
+					currentDriver.findElement(By.xpath("//ion-item[contains(.,'Fecha')]")).click();
+					currentDriver.findElement(By.cssSelector("span.mat-button-wrapper")).click();
+					currentDriver.findElement(By.cssSelector("td[aria-label='" + year + "']")).click();
+					currentDriver.findElement(By.xpath("//td[contains(.,'" + mes + "')]")).click();
+					currentDriver.findElement(By.xpath("//td[contains(.,'" + dia + "')]")).click();
 
-				currentDriver.findElement(By.xpath("//ion-item[contains(.,'Fecha')]")).click();
-				currentDriver.findElement(By.cssSelector("span.mat-button-wrapper")).click();
-				currentDriver.findElement(By.cssSelector("td[aria-label='" + year + "']")).click();
-				currentDriver.findElement(By.xpath("//td[contains(.,'" + mes + "')]")).click();
-				currentDriver.findElement(By.xpath("//td[contains(.,'" + dia + "')]")).click();
+					currentDriver.findElement(By.xpath("//ion-button[contains(.,'Farmacias')]")).click();
 
-				currentDriver.findElement(By.xpath("//ion-button[contains(.,'Farmacias')]")).click();
+					// Esperar a que cargue
+					WebDriverWait wait = new WebDriverWait(currentDriver, 30);
+					wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h3")));				
+					List<WebElement> listaFarmacias = currentDriver.findElements(By.cssSelector("h3"));
+					System.out.println("Listado de farmacias el " + dia + "/" + mes + "/" + year);
+					listaFarmacias.forEach(o -> System.out.println(o.getText()));
 
-				List<WebElement> listaFarmacias = currentDriver.findElements(By.cssSelector("h3"));
-				System.out.println("Listado de farmacias el " + dia + "/" + mes + "/" + year);
-				listaFarmacias.forEach(o -> System.out.println(o.getText()));
+					if (pueblo.equals("ALARCON")) {
+						Assert.assertEquals("M", listaFarmacias.get(0).getText().substring(0, 1));
 
-				if (pueblo.equals("ALARCON")) {
-					Assert.assertEquals("M", listaFarmacias.get(0).getText().substring(0, 1));
+						String handleVentana1 = currentDriver.getWindowHandle();
+						System.out.println(handleVentana1);
 
-					String handleVentana1 = currentDriver.getWindowHandle();
-					System.out.println(handleVentana1);
+						List<WebElement> listaFarmaciasMapa = currentDriver
+								.findElements(By.cssSelector("ion-item a.text-end"));
+						listaFarmaciasMapa.get(0).click();
 
-					List<WebElement> listaFarmaciasMapa = currentDriver
-							.findElements(By.cssSelector("ion-item a.text-end"));
-					listaFarmaciasMapa.get(0).click();
-
-					Set<String> listadoHanleVentanas = currentDriver.getWindowHandles();
-					listadoHanleVentanas.remove(handleVentana1);
-					String handleVentana2 = listadoHanleVentanas.iterator().next();
-					currentDriver.switchTo().window(handleVentana1);
-					currentDriver.close();
-					currentDriver.switchTo().window(handleVentana2);
-					Assert.assertEquals(handleVentana2, currentDriver.getWindowHandle(),
-							"No estás en la pestaña adecuada");
+						Set<String> listadoHanleVentanas = currentDriver.getWindowHandles();
+						listadoHanleVentanas.remove(handleVentana1);
+						String handleVentana2 = listadoHanleVentanas.iterator().next();
+						currentDriver.switchTo().window(handleVentana1);
+						currentDriver.close();
+						currentDriver.switchTo().window(handleVentana2);
+						Assert.assertEquals(handleVentana2, currentDriver.getWindowHandle(),
+								"No estás en la pestaña adecuada");
+					}
+				} catch (ElementNotInteractableException e) {
+					System.out.println("No se hizo click");
+					e.printStackTrace();					
 				}
 			}
 		}
