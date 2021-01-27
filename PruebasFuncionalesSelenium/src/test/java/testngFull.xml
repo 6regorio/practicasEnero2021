@@ -3,19 +3,12 @@
 <suite name="Conjunto de todas las pruebas" parallel="false">
 	<test name="Pruebas con identificacion necesaria">
 		<classes>
-			<class name="privado.IniciarSesionDniElectronico" />
-			<class name="privado.MiPerfilPrivado" />
-			<class name="privado.ComprobarCarpetaSalud6Links" />
-			<class name="privado.MiPerfilPrivadoLogOut" />
+			<class name="privado.AutenticacionRequerida" />
 		</classes>
 	</test>
 	<test name="Pruebas sin identificacion">
 		<classes>
-			<class name="publico.CargaNotificacionesY3Mas" />
-			<class name="publico.AbrirCoronavirus" />
-			<class name="publico.PedirCita2Links" />
-			<class name="publico.TelefonoPopUp" />
-			<class name="publico.EncontrarFarmaciaConFecha" />
+			<class name="publico.SinAutenticar" />
 		</classes>
-	</test>
+	</test> 
 </suite>
