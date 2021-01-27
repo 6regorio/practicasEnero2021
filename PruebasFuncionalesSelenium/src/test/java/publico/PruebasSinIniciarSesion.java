@@ -290,7 +290,7 @@ public class PruebasSinIniciarSesion {
 		return data;
 	}
 
-	private void saberSiEsChromeOFirefox(int i) {
+	public static void saberSiEsChromeOFirefox(int i) {
 		if (i == 0) {
 			System.out.println("Prueba en navegador Chrome");
 			Reporter.log("Chrome");
