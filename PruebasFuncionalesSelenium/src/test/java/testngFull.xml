@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
-<suite name="Conjunto de todas las pruebas" parallel="classes" thread-count="2">
+<suite name="Conjunto de todas las pruebas" parallel="tests"
+	thread-count="2">
 	<test name="Pruebas con identificacion necesaria">
 		<classes>
 			<class name="privado.InicioSesionRequerido" />
-			<class name="privado.InicioSesionRequeridoFirefox" />
 		</classes>
 	</test>
-	<!-- <test name="Pruebas sin identificacion"> <classes> <class name="publico.CargaNotificacionesY3Mas" 
-		/> <class name="publico.AbrirCoronavirus" /> <class name="publico.PedirCita2Links" 
-		/> <class name="publico.TelefonoPopUp" /> <class name="publico.EncontrarFarmaciaConFecha" 
-		/> </classes> </test> -->
+	<test name="Pruebas sin identificacion">
+		<classes>
+			<class name="publico.PruebasSinIniciarSesion" />
+		</classes>
+	</test>
 </suite>

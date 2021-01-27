@@ -15,7 +15,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-public class ProbandoVariosNavegadores {
+public class PruebasSinIniciarSesion {
 
 	private WebDriver driverC;
 	private WebDriver driverF;

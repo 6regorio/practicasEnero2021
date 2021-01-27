@@ -19,6 +19,10 @@ import org.testng.annotations.Test;
 
 public class InicioSesionRequerido {
 
+	public static WebDriver driverC;
+	public static WebDriver driverF;
+
+	// TODO borrar o hacer privados cuando se termine la modificación
 	public static WebDriver driver;
 	public static String baseURL;
 	public static String dni;
