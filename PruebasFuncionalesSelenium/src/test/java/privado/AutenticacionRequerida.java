@@ -188,7 +188,7 @@ public class AutenticacionRequerida {
 
 	private void preguntarDniOClavePermanente() {
 		String[] identificadores = { "DNI electrónico", "Clave permanente" };
-		Object selected2 = JOptionPane.showInputDialog(null, "¿Qué tipo de identificación desea usar?", "Selection",
+		Object selected2 = JOptionPane.showInputDialog(null, "¿Qué tipo de identificación desea usar?", "Elija identificación",
 				JOptionPane.DEFAULT_OPTION, null, identificadores, "Clave permanente");
 		if (selected2 != null) {
 			certificadoOClavePermanente = selected2.toString();
@@ -200,7 +200,7 @@ public class AutenticacionRequerida {
 
 	private void preguntarNavegadorAUtilizar() {
 		String[] navegadores = { "Chrome", "Firefox", "Ambos" };
-		Object selected = JOptionPane.showInputDialog(null, "¿Qué navegador desea usar?", "Selection",
+		Object selected = JOptionPane.showInputDialog(null, "¿Qué navegador desea usar?", "Elija navegador",
 				JOptionPane.DEFAULT_OPTION, null, navegadores, "Chrome");
 		if (selected != null) {
 			navegador = selected.toString();
