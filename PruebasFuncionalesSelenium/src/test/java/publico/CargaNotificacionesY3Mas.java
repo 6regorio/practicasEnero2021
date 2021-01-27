@@ -10,7 +10,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import privado.IniciarSesionDniElectronico;
+import privado.InicioSesionRequerido;
 
 public class CargaNotificacionesY3Mas {
 
@@ -18,7 +18,7 @@ public class CargaNotificacionesY3Mas {
 
 	@BeforeClass
 	public void cargaPropiedadesMásIdentificarSiNoSeHaHecho() {
-		driver = IniciarSesionDniElectronico.driver;
+		driver = InicioSesionRequerido.driver;
 		if (driver == null) {
 			System.setProperty("webdriver.chrome.driver", "./src/test/resources/chromedriver/chromedriver.exe");
 			driver = new ChromeDriver();
