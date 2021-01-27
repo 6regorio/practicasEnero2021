@@ -11,6 +11,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.AfterSuite;
@@ -129,19 +131,14 @@ public class AutenticacionRequerida {
 			// Entrar con DNI electrónico
 			d.findElement(By.partialLinkText("Acce")).click();
 		}
-		try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		Assert.assertTrue(d.findElement(By.xpath("//ion-button[contains(.,'GREGORIO')]")).isDisplayed());
-		// Comprobar que no aparece el candado
+		WebDriverWait wait = new WebDriverWait(d, 30);
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("ion-icon[name='lock-closed']")));
 		Assert.assertFalse(d.findElement(By.cssSelector("ion-icon[name='lock-closed']")).isDisplayed());
 	}
 
 	public void iniciarSesionPreguntandoDatos() {
 		preguntarNavegadorAUtilizar();
-		
+
 		if (navegador.equals("Firefox") || navegador.equals("Ambos")) {
 			certificadoOClavePermanente = "Clave permanente";
 		} else {
@@ -363,11 +360,9 @@ public class AutenticacionRequerida {
 				SinAutenticar.saberSiEsChromeOFirefox(i);
 				currentDriver.findElement(By.cssSelector("div > .button-clear")).click();
 				currentDriver.findElement(By.xpath("//button[2]/span")).click();
-				try {
-					Thread.sleep(6000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				WebDriverWait wait = new WebDriverWait(currentDriver, 30);
+				wait.until(ExpectedConditions
+						.visibilityOfElementLocated(By.xpath("//ion-button[contains(.,'IDENTIFICARME')]")));
 				Assert.assertTrue(
 						currentDriver.findElement(By.xpath("//ion-button[contains(.,'IDENTIFICARME')]")).isDisplayed());
 			}
