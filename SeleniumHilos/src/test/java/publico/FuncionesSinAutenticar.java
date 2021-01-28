@@ -2,125 +2,56 @@ package publico;
 
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.Reporter;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
 
-import privado.AutenticacionRequerida;
+/**
+ * Conjunto de métodos y pruebas que chequean la parte pública de la aplicación web. Se tiene la
+ * opción de probar la búsqueda de farmacias con un DataProvider para ejecutar distintas pruebas en
+ * la misma ejecución.
+ */
+public class FuncionesSinAutenticar {
+  /**
+   * Será el controlador de Chrome
+   */
+  public static WebDriver driverC;
+  /**
+   * Será el controlador de Firefox
+   */
+  public static WebDriver driverF;
 
-public class SinAutenticar {
-
-  private WebDriver driverC;
-  private WebDriver driverF;
-
-  @BeforeClass
-  public void cargaPropiedadesMásIdentificarSiNoSeHaHecho() {
-    driverF = AutenticacionRequerida.driverF;
-    driverC = AutenticacionRequerida.driverC;
-    // Código usado sólo cuando hago alguno de los test de esta clase por separado
-    if (driverC == null && driverF == null) {
-      System.setProperty("webdriver.chrome.driver",
-          "./src/test/resources/chromedriver/chromedriver.exe");
-      driverC = new ChromeDriver();
-      driverC.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-      driverC.manage().window().maximize();
-      driverC.get("https://sescampre.jccm.es/portalsalud/app/inicio");
-      System.setProperty("webdriver.gecko.driver",
-          "./src/test/resources/firefoxdriver/geckodriver.exe");
-      driverF = new FirefoxDriver();
-      driverF.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-      driverF.manage().window().maximize();
-      driverF.get("https://sescampre.jccm.es/portalsalud/app/inicio");
-    }
-  }
-
-  @BeforeMethod
-  public void cargarPaginaInicial() {
-    if (driverF != null) {
-      driverF.get("https://sescampre.jccm.es/portalsalud/app/inicio");
-    }
-    if (driverC != null) {
-      driverC.get("https://sescampre.jccm.es/portalsalud/app/inicio");
-    }
-  }
-
-  @Test(groups = "Comprobaciones sin iniciar sesión")
-  public void comprobarClickTelefono() {
-    // MiHilo miHilo = new MiHilo("Gregorio");
-
-    comprobarClickTelefono(driverC, driverF);
-  }
-
-  @Test(groups = "Comprobaciones sin iniciar sesión")
-  public void comprobarEnlaceCoronavirus() {
-    comprobarEnlaceCoronavirus(driverC, driverF);
-  }
-
-  @Test(groups = "Comprobaciones sin iniciar sesión")
-  public void masPrivacidad() {
-    masPrivacidad(driverC, driverF);
-  }
-
-  @Test(groups = "Comprobaciones sin iniciar sesión")
-  public void masContacto() {
-    masContacto(driverC, driverF);
-  }
-
-  @Test(groups = "Comprobaciones sin iniciar sesión")
-  public void masAyuda() {
-    masAyuda(driverC, driverF);
-  }
-
-  @Test(groups = "Comprobaciones sin iniciar sesión")
-  public void mostarNotificaciones() {
-    mostarNotificaciones(driverC, driverF);
-  }
-
-  @Test(groups = "Comprobaciones sin iniciar sesión")
-  public void paginaInicioCitaPreviaAtencionHospitalaria() {
-    paginaInicioCitaPreviaAtencionHospitalaria(driverC, driverF);
-  }
-
-  @Test(groups = "Comprobaciones sin iniciar sesión")
-  public void paginaInicioCitaPreviaAtencionPrimaria() {
-    paginaInicioCitaPreviaAtencionPrimaria(driverC, driverF);
-  }
-
-  @Test(groups = "Búsqueda de farmacias", dataProvider = "EncoFarmProvider")
-  public void encuentraFarmaciaParametros(String provincia, String pueblo, String year, String mes,
-      String dia) {
-    encuentraFarmaciaParametros(provincia, pueblo, year, mes, dia, driverC, driverF);
-  }
-
-  public void comprobarClickTelefono(WebDriver... drivers) {
-    for (int i = 0; i < 2; i++) {
+  /**
+   * Comprueba el popup del teléfono en la página principal
+   * 
+   * @param drivers
+   */
+  public static void comprobarClickTelefono(WebDriver... drivers) {
+    for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
         saberSiEsChromeOFirefox(i);
-        ComprobarClickTelefonoHilos comprobarClickTelefonoHilos =
-            new ComprobarClickTelefonoHilos(currentDriver);
-        Thread hola = new Thread(comprobarClickTelefonoHilos);
-        hola.start();
-        hola.run();
-        System.out.println(hola.getName());
+        currentDriver.findElement(By.cssSelector(".action-icon-telephone")).click();
+        Assert.assertTrue(currentDriver.findElement(By.linkText("900 12 21 12")).isDisplayed(),
+            "La pantalla es incorrecta");
+        currentDriver.findElement(By.cssSelector(".ion-page > .ion-color")).click();
       }
     }
   }
 
-  public void comprobarEnlaceCoronavirus(WebDriver... drivers) {
-    for (int i = 0; i < 2; i++) {
+  /**
+   * Comprueba el enlace del coronavirus en la página principal
+   * 
+   * @param drivers
+   */
+  public static void comprobarEnlaceCoronavirus(WebDriver... drivers) {
+    for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
         saberSiEsChromeOFirefox(i);
@@ -141,8 +72,13 @@ public class SinAutenticar {
     }
   }
 
-  public void masPrivacidad(WebDriver... drivers) {
-    for (int i = 0; i < 2; i++) {
+  /**
+   * Comprueba pulsar más y entrar en privacidad
+   * 
+   * @param drivers
+   */
+  public static void masPrivacidad(WebDriver... drivers) {
+    for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
         saberSiEsChromeOFirefox(i);
@@ -160,8 +96,13 @@ public class SinAutenticar {
     }
   }
 
-  public void masAyuda(WebDriver... drivers) {
-    for (int i = 0; i < 2; i++) {
+  /**
+   * Comprueba pulsar más y entrar en ayuda
+   * 
+   * @param drivers
+   */
+  public static void masAyuda(WebDriver... drivers) {
+    for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
         saberSiEsChromeOFirefox(i);
@@ -178,8 +119,13 @@ public class SinAutenticar {
     }
   }
 
-  public void mostarNotificaciones(WebDriver... drivers) {
-    for (int i = 0; i < 2; i++) {
+  /**
+   * Comprueba pulsar más y entrar en notificaciones
+   * 
+   * @param drivers
+   */
+  public static void mostarNotificaciones(WebDriver... drivers) {
+    for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
         saberSiEsChromeOFirefox(i);
@@ -192,8 +138,13 @@ public class SinAutenticar {
     }
   }
 
-  public void masContacto(WebDriver... drivers) {
-    for (int i = 0; i < 2; i++) {
+  /**
+   * Comprueba pulsar más y entrar en contacto
+   * 
+   * @param drivers
+   */
+  public static void masContacto(WebDriver... drivers) {
+    for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
         saberSiEsChromeOFirefox(i);
@@ -220,8 +171,13 @@ public class SinAutenticar {
     }
   }
 
-  public void paginaInicioCitaPreviaAtencionPrimaria(WebDriver... drivers) {
-    for (int i = 0; i < 2; i++) {
+  /**
+   * Comprueba entrar en cita previa de atención primaria
+   * 
+   * @param drivers
+   */
+  public static void paginaInicioCitaPreviaAtencionPrimaria(WebDriver... drivers) {
+    for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
         saberSiEsChromeOFirefox(i);
@@ -235,8 +191,13 @@ public class SinAutenticar {
     }
   }
 
-  public void paginaInicioCitaPreviaAtencionHospitalaria(WebDriver... drivers) {
-    for (int i = 0; i < 2; i++) {
+  /**
+   * Comprueba entrar en cita previa de atención primaria
+   * 
+   * @param drivers
+   */
+  public static void paginaInicioCitaPreviaAtencionHospitalaria(WebDriver... drivers) {
+    for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
         saberSiEsChromeOFirefox(i);
@@ -250,10 +211,19 @@ public class SinAutenticar {
     }
   }
 
-  public void encuentraFarmaciaParametros(String provincia, String pueblo, String year, String mes,
-      String dia, WebDriver... drivers) {
-
-    for (int i = 0; i < 2; i++) {
+  /**
+   * Busca una farmacia con los datos que se le suministran
+   * 
+   * @param provincia
+   * @param pueblo
+   * @param year
+   * @param mes
+   * @param dia
+   * @param drivers - navegador
+   */
+  public static void encuentraFarmaciaParametros(String provincia, String pueblo, String year,
+      String mes, String dia, WebDriver... drivers) {
+    for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
         saberSiEsChromeOFirefox(i);
@@ -308,10 +278,12 @@ public class SinAutenticar {
       }
     }
   }
-/**
- * Se trata de un DataProvider que proporciona datos a la clase encuentraFarmaciaParametros
- * @return
- */
+
+  /**
+   * DataProvider para la función encuentraFarmaciaParametros
+   * 
+   * @return
+   */
   @DataProvider(name = "EncoFarmProvider")
   public Object[][] getData() {
     // String provincia, String pueblo, String year, String mes, String dia
@@ -321,11 +293,16 @@ public class SinAutenticar {
     return data;
   }
 
+  /**
+   * Imprime en el Report si la prueba se ha ejecutado con Chrome o con Firefox
+   * 
+   * @param i
+   */
   public static void saberSiEsChromeOFirefox(int i) {
     if (i == 0) {
-      Reporter.log("Chrome ");
+      Reporter.log("Chrome");
     } else {
-      Reporter.log("Firefox ");
+      Reporter.log("Firefox");
     }
   }
 }

@@ -1,4 +1,4 @@
-package publico; 
+package old_probando.publico;
 
 import org.testng.annotations.Test;
 
