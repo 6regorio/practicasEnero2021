@@ -57,6 +57,10 @@ public class SinAutenticar {
 
 	@Test(groups = "Comprobaciones sin iniciar sesión")
 	public void comprobarClickTelefono() {
+		//MiHilo miHilo = new MiHilo("Gregorio");
+		
+		
+		
 		comprobarClickTelefono(driverC, driverF);
 	}
 
@@ -105,10 +109,12 @@ public class SinAutenticar {
 			WebDriver currentDriver = drivers[i];
 			if (currentDriver != null) {
 				saberSiEsChromeOFirefox(i);
-				currentDriver.findElement(By.cssSelector(".action-icon-telephone")).click();
-				Assert.assertTrue(currentDriver.findElement(By.linkText("900 12 21 12")).isDisplayed(),
-						"La pantalla es incorrecta");
-				currentDriver.findElement(By.cssSelector(".ion-page > .ion-color")).click();
+				ComprobarClickTelefonoHilos comprobarClickTelefonoHilos = new ComprobarClickTelefonoHilos(
+						currentDriver);
+				Thread hola = new Thread(comprobarClickTelefonoHilos);
+				hola.start();
+				hola.run();
+				System.out.println(hola.getName());
 			}
 		}
 	}
@@ -284,7 +290,7 @@ public class SinAutenticar {
 
 						Set<String> listadoHanleVentanas = currentDriver.getWindowHandles();
 						listadoHanleVentanas.remove(handleVentana1);
-						String handleVentana2 = listadoHanleVentanas.iterator().next();						
+						String handleVentana2 = listadoHanleVentanas.iterator().next();
 						currentDriver.switchTo().window(handleVentana2);
 						currentDriver.close();
 						currentDriver.switchTo().window(handleVentana1);

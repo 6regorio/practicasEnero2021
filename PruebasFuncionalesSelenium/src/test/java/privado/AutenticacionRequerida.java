@@ -188,8 +188,8 @@ public class AutenticacionRequerida {
 
 	private void preguntarDniOClavePermanente() {
 		String[] identificadores = { "DNI electrónico", "Clave permanente" };
-		Object selected2 = JOptionPane.showInputDialog(null, "¿Qué tipo de identificación desea usar?", "Elija identificación",
-				JOptionPane.DEFAULT_OPTION, null, identificadores, "Clave permanente");
+		Object selected2 = JOptionPane.showInputDialog(null, "¿Qué tipo de identificación desea usar?",
+				"Elija identificación", JOptionPane.DEFAULT_OPTION, null, identificadores, "Clave permanente");
 		if (selected2 != null) {
 			certificadoOClavePermanente = selected2.toString();
 		} else {
@@ -212,9 +212,9 @@ public class AutenticacionRequerida {
 		System.out.println(navegador);
 	}
 
-	private void pedirDniYPassword() {		
+	private void pedirDniYPassword() {
 		JFrame frame = new JFrame();
-		JPanel panel = new JPanel(new BorderLayout(5, 5));		
+		JPanel panel = new JPanel(new BorderLayout(5, 5));
 		JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
 		label.add(new JLabel("DNI (12345678Z)", SwingConstants.RIGHT));
 		label.add(new JLabel("Clave permanente", SwingConstants.RIGHT));
@@ -225,13 +225,13 @@ public class AutenticacionRequerida {
 		JPasswordField txtPassword = new JPasswordField();
 		controls.add(txtPassword);
 		panel.add(controls, BorderLayout.CENTER);
-		JOptionPane.showMessageDialog(frame, panel, "Iniciar sesión", JOptionPane.QUESTION_MESSAGE);		
+		JOptionPane.showMessageDialog(frame, panel, "Iniciar sesión", JOptionPane.QUESTION_MESSAGE);
 		dni = txtDni.getText();
 		password = "";
 		for (char caracter : txtPassword.getPassword()) {
 			password += caracter;
 		}
-		if(dni.isBlank()||(password.isBlank())) {
+		if (dni.isEmpty() || (password.isEmpty())) {
 			System.out.println("Cancelado por el usuario");
 			System.exit(1);
 		}
