@@ -2,10 +2,11 @@ package publico;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.Reporter;
+import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import privado.Funciones;
+import privado.AutentificacionRequeridaFunciones;
 
 /**
  * Conjunto de métodos y pruebas que chequean la parte pública de la aplicación web. Se tiene la
@@ -24,7 +25,7 @@ public class SinAutenticarFirefox {
    */
   @BeforeClass
   public void cargaPropiedadesMásIdentificarSiNoSeHaHecho() {
-    currentDriver = Funciones.driverF;
+    currentDriver = AutentificacionRequeridaFunciones.driverF;
   }
 
   /**
@@ -40,8 +41,9 @@ public class SinAutenticarFirefox {
   /**
    * Ejecuta la prueba
    */
-  @Test(groups = "Comprobaciones sin iniciar sesión")
-  public void comprobarClickTelefono() {
+  @Test(groups = "Comprobaciones sin iniciar sesión",
+      dependsOnMethods = "Firefox_comprobarEnlaceCoronavirus")
+  public void Firefox_comprobarClickTelefono() {
     FuncionesSinAutenticar.comprobarClickTelefono(currentDriver);
   }
 
@@ -49,64 +51,74 @@ public class SinAutenticarFirefox {
    * Ejecuta la prueba
    */
   @Test(groups = "Comprobaciones sin iniciar sesión")
-  public void comprobarEnlaceCoronavirus() {
+  public void Firefox_comprobarEnlaceCoronavirus() {
+    if (currentDriver == null)
+      throw new SkipException("Sin pruebas con Firefox");
     FuncionesSinAutenticar.comprobarEnlaceCoronavirus(currentDriver);
   }
 
   /**
    * Ejecuta la prueba
    */
-  @Test(groups = "Comprobaciones sin iniciar sesión")
-  public void masPrivacidad() {
+  @Test(groups = "Comprobaciones sin iniciar sesión",
+      dependsOnMethods = "Firefox_comprobarEnlaceCoronavirus")
+  public void Firefox_masPrivacidad() {
     FuncionesSinAutenticar.masPrivacidad(currentDriver);
   }
 
   /**
    * Ejecuta la prueba
    */
-  @Test(groups = "Comprobaciones sin iniciar sesión")
-  public void masContacto() {
+  @Test(groups = "Comprobaciones sin iniciar sesión",
+      dependsOnMethods = "Firefox_comprobarEnlaceCoronavirus")
+  public void Firefox_masContacto() {
     FuncionesSinAutenticar.masContacto(currentDriver);
   }
 
   /**
    * Ejecuta la prueba
    */
-  @Test(groups = "Comprobaciones sin iniciar sesión")
-  public void masAyuda() {
+  @Test(groups = "Comprobaciones sin iniciar sesión",
+      dependsOnMethods = "Firefox_comprobarEnlaceCoronavirus")
+  public void Firefox_masAyuda() {
     FuncionesSinAutenticar.masAyuda(currentDriver);
   }
 
   /**
    * Ejecuta la prueba
    */
-  @Test(groups = "Comprobaciones sin iniciar sesión")
-  public void mostarNotificaciones() {
+  @Test(groups = "Comprobaciones sin iniciar sesión",
+      dependsOnMethods = "Firefox_comprobarEnlaceCoronavirus")
+  public void Firefox_mostarNotificaciones() {
     FuncionesSinAutenticar.mostarNotificaciones(currentDriver);
   }
 
   /**
    * Ejecuta la prueba
    */
-  @Test(groups = "Comprobaciones sin iniciar sesión")
-  public void paginaInicioCitaPreviaAtencionHospitalaria() {
+  @Test(groups = "Comprobaciones sin iniciar sesión",
+      dependsOnMethods = "Firefox_comprobarEnlaceCoronavirus")
+  public void Firefox_paginaInicioCitaPreviaAtencionHospitalaria() {
     FuncionesSinAutenticar.paginaInicioCitaPreviaAtencionHospitalaria(currentDriver);
   }
 
   /**
    * Ejecuta la prueba
    */
-  @Test(groups = "Comprobaciones sin iniciar sesión")
-  public void paginaInicioCitaPreviaAtencionPrimaria() {
+  @Test(groups = "Comprobaciones sin iniciar sesión",
+      dependsOnMethods = "Firefox_comprobarEnlaceCoronavirus")
+  public void Firefox_paginaInicioCitaPreviaAtencionPrimaria() {
     FuncionesSinAutenticar.paginaInicioCitaPreviaAtencionPrimaria(currentDriver);
   }
 
   /**
    * Ejecuta la prueba
    */
-  @Test(groups = "Búsqueda de farmacias", dataProvider = "EncoFarmProvider", dataProviderClass = FuncionesSinAutenticar.class)
-  public void encuentraFarmaciaParametros(String provincia, String pueblo, String year, String mes,
-      String dia) {
+  @Test(groups = "Búsqueda de farmacias", dataProvider = "EncoFarmProvider",
+      dataProviderClass = FuncionesSinAutenticar.class,
+      dependsOnMethods = "Firefox_comprobarEnlaceCoronavirus")
+  public void Firefox_encuentraFarmaciaParametros(String provincia, String pueblo, String year,
+      String mes, String dia) {
     FuncionesSinAutenticar.encuentraFarmaciaParametros(provincia, pueblo, year, mes, dia,
         currentDriver);
   }

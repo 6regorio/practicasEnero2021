@@ -30,7 +30,7 @@ import publico.SinAutenticarChrome;
  * puede ser mediante DNI electrónico o clave permanente. La identificación en los demás casos será
  * siempre con clave permanente.
  */
-public class Funciones {
+public class AutentificacionRequeridaFunciones {
   /**
    * Será el controlador de Chrome
    */
