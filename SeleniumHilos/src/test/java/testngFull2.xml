@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Todas las pruebas" parallel="tests" thread-count="3">
+
+	<listeners>
+		<listener class-name="listeners.CustomListeners"></listener>
+	</listeners>
+
+	<test name="Pruebas con identificacion necesaria">
+		<classes>
+			<class name="privado.AutenticacionRequeridaPRALLL" />
+		</classes>
+	</test>
+
+</suite>
