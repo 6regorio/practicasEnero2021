@@ -36,11 +36,11 @@ public class AutentificacionRequeridaFunciones {
    */
   public static WebDriver driverC;
   /**
-   * Será el controlador de Firefox
+   * Será el controlador de Edge
    */
   public static WebDriver driverE;
   /**
-   * Será el controlador de Edge
+   * Será el controlador de Firefox
    */
   public static WebDriver driverF;
 
