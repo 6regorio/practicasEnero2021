@@ -17,12 +17,12 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.Reporter;
-import publico.SinAutenticarChrome;
 
 /**
  * Conjunto de métodos y pruebas que chequean la parte privada de la aplicación web. Se tiene la
@@ -37,6 +37,10 @@ public class AutentificacionRequeridaFunciones {
   public static WebDriver driverC;
   /**
    * Será el controlador de Firefox
+   */
+  public static WebDriver driverE;
+  /**
+   * Será el controlador de Edge
    */
   public static WebDriver driverF;
 
@@ -56,7 +60,6 @@ public class AutentificacionRequeridaFunciones {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        SinAutenticarChrome.saberSiEsChromeOFirefox(i);
         iniciarSesionConAssertsIncluidos(currentDriver, dni, password);
       }
     }
@@ -72,6 +75,7 @@ public class AutentificacionRequeridaFunciones {
    */
   public static void iniciarSesionConAssertsIncluidos(WebDriver d, String dni, String password) {
     baseURL = "https://sescampre.jccm.es/portalsalud/app/inicio";
+    d.get("https://sescampre.jccm.es/portalsalud/ayuda-pasarela");
     d.get(baseURL);
     d.manage().window().maximize();
     List<WebElement> botonesIdentificarme =
@@ -91,10 +95,15 @@ public class AutentificacionRequeridaFunciones {
       // Entrar con DNI electrónico
       d.findElement(By.partialLinkText("Acce")).click();
     }
+    d.findElement(By.xpath("//ion-segment-button[contains(.,'Perfil')]")).click();
+    d.findElement(By.xpath("//ion-segment-button[contains(.,'Carpeta de Salud')]"));
+    d.findElement(By.xpath("//ion-segment-button[contains(.,'Inicio')]"));
+
     WebDriverWait wait = new WebDriverWait(d, 30);
     wait.until(ExpectedConditions
         .invisibilityOfElementLocated(By.cssSelector("ion-icon[name='lock-closed']")));
     Assert.assertFalse(d.findElement(By.cssSelector("ion-icon[name='lock-closed']")).isDisplayed());
+
   }
 
   /**
@@ -103,7 +112,7 @@ public class AutentificacionRequeridaFunciones {
   public static void iniciarSesionPreguntandoDatos() {
     preguntarNavegadorAUtilizar();
 
-    if (navegador.equals("Firefox") || navegador.equals("Ambos")) {
+    if (navegador.equals("Firefox") || navegador.equals("Todos")) {
       certificadoOClavePermanente = "Clave permanente";
     } else {
       preguntarDniOClavePermanente();
@@ -128,6 +137,13 @@ public class AutentificacionRequeridaFunciones {
       driverF.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
       driverF.manage().window().maximize();
       driverF.get("https://sescampre.jccm.es/portalsalud/app/inicio");
+    } else if (navegador.equals("Edge")) {
+      System.setProperty("webdriver.edge.driver",
+          "./src/test/resources/msedgedriver/msedgedriver.exe");
+      driverE = new EdgeDriver();
+      driverE.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+      driverE.manage().window().maximize();
+      driverE.get("https://sescampre.jccm.es/portalsalud/app/inicio");
     } else {
       System.setProperty("webdriver.chrome.driver",
           "./src/test/resources/chromedriver/chromedriver.exe");
@@ -141,6 +157,12 @@ public class AutentificacionRequeridaFunciones {
       driverF.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
       driverF.manage().window().maximize();
       driverF.get("https://sescampre.jccm.es/portalsalud/app/inicio");
+      System.setProperty("webdriver.edge.driver",
+          "./src/test/resources/msedgedriver/msedgedriver.exe");
+      driverE = new EdgeDriver();
+      driverE.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+      driverE.manage().window().maximize();
+      driverE.get("https://sescampre.jccm.es/portalsalud/app/inicio");
     }
     baseURL = "https://sescampre.jccm.es/portalsalud/app/inicio";
   }
@@ -166,7 +188,7 @@ public class AutentificacionRequeridaFunciones {
    * Muestra una ventana que permite elegir qué navegador usar
    */
   private static void preguntarNavegadorAUtilizar() {
-    String[] navegadores = {"Chrome", "Firefox", "Ambos"};
+    String[] navegadores = {"Chrome", "Firefox", "Edge", "Todos"};
     Object selected = JOptionPane.showInputDialog(null, "¿Qué navegador desea usar?",
         "Elija navegador", JOptionPane.DEFAULT_OPTION, null, navegadores, "Chrome");
     if (selected != null) {
@@ -217,7 +239,6 @@ public class AutentificacionRequeridaFunciones {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        SinAutenticarChrome.saberSiEsChromeOFirefox(i);
         currentDriver.findElement(By.xpath("//ion-segment-button[contains(.,'Perfil')]")).click();
         currentDriver.findElement(By.xpath("//ion-label[contains(.,'MIS DATOS')]")).click();
         Assert.assertEquals(
@@ -236,7 +257,6 @@ public class AutentificacionRequeridaFunciones {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        SinAutenticarChrome.saberSiEsChromeOFirefox(i);
         currentDriver.findElement(By.xpath("//ion-segment-button[contains(.,'Perfil')]")).click();
         currentDriver.findElement(By.xpath("//ion-label[contains(.,'MIS PROFESIONALES')]")).click();
         Assert.assertTrue(currentDriver
@@ -254,7 +274,6 @@ public class AutentificacionRequeridaFunciones {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        SinAutenticarChrome.saberSiEsChromeOFirefox(i);
         String handleVentana1 = currentDriver.getWindowHandle();
         currentDriver.findElement(By.xpath("//ion-segment-button[@value='hcdsns']")).click();
         Set<String> listadoHanleVentanas = currentDriver.getWindowHandles();
@@ -280,7 +299,6 @@ public class AutentificacionRequeridaFunciones {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        SinAutenticarChrome.saberSiEsChromeOFirefox(i);
         currentDriver.findElement(By.xpath("//ion-segment-button[contains(.,'Carpeta de Salud')]"))
             .click();
         currentDriver.findElement(By.xpath("//span[contains(.,'ALERGIAS')]")).click();
@@ -299,7 +317,6 @@ public class AutentificacionRequeridaFunciones {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        SinAutenticarChrome.saberSiEsChromeOFirefox(i);
         currentDriver.findElement(By.xpath("//ion-segment-button[contains(.,'Carpeta de Salud')]"))
             .click();
         currentDriver.findElement(By.xpath("//span[contains(.,'INFORMES')]")).click();
@@ -318,7 +335,6 @@ public class AutentificacionRequeridaFunciones {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        SinAutenticarChrome.saberSiEsChromeOFirefox(i);
         currentDriver.findElement(By.xpath("//ion-segment-button[contains(.,'Carpeta de Salud')]"))
             .click();
         currentDriver.findElement(By.xpath("//span[contains(.,'MEDICACION')]")).click();
@@ -337,7 +353,6 @@ public class AutentificacionRequeridaFunciones {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        SinAutenticarChrome.saberSiEsChromeOFirefox(i);
         currentDriver.findElement(By.xpath("//ion-segment-button[contains(.,'Carpeta de Salud')]"))
             .click();
         currentDriver.findElement(By.xpath("//span[contains(.,'CITAS')]")).click();
@@ -356,7 +371,6 @@ public class AutentificacionRequeridaFunciones {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        SinAutenticarChrome.saberSiEsChromeOFirefox(i);
         currentDriver.findElement(By.xpath("//ion-segment-button[contains(.,'Carpeta de Salud')]"))
             .click();
         currentDriver.findElement(By.xpath("//span[contains(.,'VACUNAS')]")).click();
@@ -377,7 +391,6 @@ public class AutentificacionRequeridaFunciones {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        SinAutenticarChrome.saberSiEsChromeOFirefox(i);
         currentDriver.findElement(By.xpath("//ion-segment-button[contains(.,'Carpeta de Salud')]"))
             .click();
         String handleVentana1 = currentDriver.getWindowHandle();
@@ -415,7 +428,6 @@ public class AutentificacionRequeridaFunciones {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        SinAutenticarChrome.saberSiEsChromeOFirefox(i);
         currentDriver.findElement(By.cssSelector("div > .button-clear")).click();
         currentDriver.findElement(By.xpath("//button[2]/span")).click();
         WebDriverWait wait = new WebDriverWait(currentDriver, 30);

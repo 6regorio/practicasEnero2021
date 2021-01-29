@@ -9,7 +9,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.Reporter;
 import org.testng.annotations.DataProvider;
 
 /**
@@ -36,7 +35,6 @@ public class FuncionesSinAutenticar {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        saberSiEsChromeOFirefox(i);
         currentDriver.findElement(By.cssSelector(".action-icon-telephone")).click();
         Assert.assertTrue(currentDriver.findElement(By.linkText("900 12 21 12")).isDisplayed(),
             "La pantalla es incorrecta");
@@ -54,7 +52,6 @@ public class FuncionesSinAutenticar {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        saberSiEsChromeOFirefox(i);
         String handleVentana1 = currentDriver.getWindowHandle();
         currentDriver.findElement(By.cssSelector("a .action-icon")).click();
         currentDriver.findElement(By.xpath("//span[contains(.,'Sí')]")).click();
@@ -81,7 +78,6 @@ public class FuncionesSinAutenticar {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        saberSiEsChromeOFirefox(i);
         currentDriver.findElement(By.xpath("//ion-segment-button[contains(.,'Más')]")).click();
         try {
           Thread.sleep(200);
@@ -105,10 +101,9 @@ public class FuncionesSinAutenticar {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        saberSiEsChromeOFirefox(i);
         currentDriver.findElement(By.xpath("//ion-segment-button[contains(.,'Más')]")).click();
         try {
-          Thread.sleep(200);
+          Thread.sleep(300);
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
@@ -128,7 +123,6 @@ public class FuncionesSinAutenticar {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        saberSiEsChromeOFirefox(i);
         currentDriver.findElement(By.xpath("//ion-segment-button[contains(.,'Notificaciones')]"))
             .click();
         Assert.assertEquals(
@@ -147,7 +141,6 @@ public class FuncionesSinAutenticar {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        saberSiEsChromeOFirefox(i);
         String handleVentana1 = currentDriver.getWindowHandle();
         currentDriver.findElement(By.xpath("//ion-segment-button[contains(.,'Más')]")).click();
         try {
@@ -180,7 +173,6 @@ public class FuncionesSinAutenticar {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        saberSiEsChromeOFirefox(i);
         currentDriver.get("https://sescampre.jccm.es/portalsalud/app/inicio");
         currentDriver.findElement(By.xpath("//span[contains(.,'PEDIR CITA')]")).click();
         currentDriver.findElement(By.xpath("//span[contains(.,'PRIMARIA')]")).click();
@@ -200,7 +192,6 @@ public class FuncionesSinAutenticar {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        saberSiEsChromeOFirefox(i);
         currentDriver.get("https://sescampre.jccm.es/portalsalud/app/inicio");
         currentDriver.findElement(By.xpath("//span[contains(.,'PEDIR CITA')]")).click();
         currentDriver.findElement(By.xpath("//span[contains(.,'HOSPITALARIA')]")).click();
@@ -226,7 +217,6 @@ public class FuncionesSinAutenticar {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        saberSiEsChromeOFirefox(i);
         currentDriver.get("https://sescampre.jccm.es/portalsalud/app/inicio");
         try {
           currentDriver.findElement(By.xpath("//span[contains(.,'ENCONTRAR')]")).click();
@@ -291,18 +281,5 @@ public class FuncionesSinAutenticar {
         {"ALBACETE", "CILANCO", "2020", "FEB", "16"},
         {"CIUDAD REAL", "ALAMILLO", "2019", "ENE", "11"}, {"TOLEDO", "ACECA", "2018", "ABR", "25"}};
     return data;
-  }
-
-  /**
-   * Imprime en el Report si la prueba se ha ejecutado con Chrome o con Firefox
-   * 
-   * @param i
-   */
-  public static void saberSiEsChromeOFirefox(int i) {
-    if (i == 0) {
-      Reporter.log("Chrome");
-    } else {
-      Reporter.log("Firefox");
-    }
   }
 }

@@ -1,7 +1,6 @@
 package publico;
 
 import org.openqa.selenium.WebDriver;
-import org.testng.Reporter;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -121,18 +120,5 @@ public class SinAutenticarFirefox {
       String mes, String dia) {
     FuncionesSinAutenticar.encuentraFarmaciaParametros(provincia, pueblo, year, mes, dia,
         currentDriver);
-  }
-
-  /**
-   * Imprime en el Report si la prueba se ha ejecutado con Chrome o con Firefox
-   * 
-   * @param i
-   */
-  public static void saberSiEsChromeOFirefox(int i) {
-    if (i == 0) {
-      Reporter.log("Chrome");
-    } else {
-      Reporter.log("Firefox");
-    }
   }
 }

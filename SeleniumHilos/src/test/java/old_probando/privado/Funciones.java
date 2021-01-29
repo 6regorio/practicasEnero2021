@@ -39,7 +39,7 @@ public class Funciones {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        SinAutenticarChrome.saberSiEsChromeOFirefox(i);
+        
         iniciarSesionConAssertsIncluidos(currentDriver, dni, password);
       }
     }
@@ -173,7 +173,7 @@ public class Funciones {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        SinAutenticarChrome.saberSiEsChromeOFirefox(i);
+        
         currentDriver.findElement(By.xpath("//ion-segment-button[contains(.,'Perfil')]")).click();
         currentDriver.findElement(By.xpath("//ion-label[contains(.,'MIS DATOS')]")).click();
         Assert.assertEquals(
@@ -187,7 +187,7 @@ public class Funciones {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        SinAutenticarChrome.saberSiEsChromeOFirefox(i);
+        
         currentDriver.findElement(By.xpath("//ion-segment-button[contains(.,'Perfil')]")).click();
         currentDriver.findElement(By.xpath("//ion-label[contains(.,'MIS PROFESIONALES')]")).click();
         Assert.assertTrue(currentDriver
@@ -200,7 +200,7 @@ public class Funciones {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        SinAutenticarChrome.saberSiEsChromeOFirefox(i);
+        
         String handleVentana1 = currentDriver.getWindowHandle();
         currentDriver.findElement(By.xpath("//ion-segment-button[@value='hcdsns']")).click();
         Set<String> listadoHanleVentanas = currentDriver.getWindowHandles();
@@ -221,7 +221,7 @@ public class Funciones {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        SinAutenticarChrome.saberSiEsChromeOFirefox(i);
+        
         currentDriver.findElement(By.xpath("//ion-segment-button[contains(.,'Carpeta de Salud')]"))
             .click();
         currentDriver.findElement(By.xpath("//span[contains(.,'ALERGIAS')]")).click();
@@ -235,7 +235,7 @@ public class Funciones {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        SinAutenticarChrome.saberSiEsChromeOFirefox(i);
+        
         currentDriver.findElement(By.xpath("//ion-segment-button[contains(.,'Carpeta de Salud')]"))
             .click();
         currentDriver.findElement(By.xpath("//span[contains(.,'INFORMES')]")).click();
@@ -249,7 +249,7 @@ public class Funciones {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        SinAutenticarChrome.saberSiEsChromeOFirefox(i);
+        
         currentDriver.findElement(By.xpath("//ion-segment-button[contains(.,'Carpeta de Salud')]"))
             .click();
         currentDriver.findElement(By.xpath("//span[contains(.,'MEDICACION')]")).click();
@@ -263,7 +263,7 @@ public class Funciones {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        SinAutenticarChrome.saberSiEsChromeOFirefox(i);
+        
         currentDriver.findElement(By.xpath("//ion-segment-button[contains(.,'Carpeta de Salud')]"))
             .click();
         currentDriver.findElement(By.xpath("//span[contains(.,'CITAS')]")).click();
@@ -277,7 +277,7 @@ public class Funciones {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        SinAutenticarChrome.saberSiEsChromeOFirefox(i);
+        
         currentDriver.findElement(By.xpath("//ion-segment-button[contains(.,'Carpeta de Salud')]"))
             .click();
         currentDriver.findElement(By.xpath("//span[contains(.,'VACUNAS')]")).click();
@@ -293,7 +293,7 @@ public class Funciones {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        SinAutenticarChrome.saberSiEsChromeOFirefox(i);
+        
         currentDriver.findElement(By.xpath("//ion-segment-button[contains(.,'Carpeta de Salud')]"))
             .click();
         String handleVentana1 = currentDriver.getWindowHandle();
@@ -326,7 +326,7 @@ public class Funciones {
     for (int i = 0; i < drivers.length; i++) {
       WebDriver currentDriver = drivers[i];
       if (currentDriver != null) {
-        SinAutenticarChrome.saberSiEsChromeOFirefox(i);
+        
         currentDriver.findElement(By.cssSelector("div > .button-clear")).click();
         currentDriver.findElement(By.xpath("//button[2]/span")).click();
         WebDriverWait wait = new WebDriverWait(currentDriver, 30);
