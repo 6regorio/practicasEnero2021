@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Todas las pruebas" parallel="classes"
+	thread-count="3">
+
+	<listeners>
+		<listener class-name="listeners.CustomListeners"></listener>
+	</listeners>
+
+	<test name="Pruebas con identificacion necesaria">
+		<classes>
+			<class name="docker.AutenticacionRequeridaChrome" />
+			<class name="docker.AutenticacionRequeridaFirefox" />
+			<class name="docker.AutenticacionRequeridaOpera" />
+		</classes>
+	</test>
+	<test name="Pruebas sin identificacion">
+		<classes>
+			<class name="docker.SinAutenticarChrome" />
+			<class name="docker.SinAutenticarFirefox" />
+			<class name="docker.SinAutenticarOpera" />
+		</classes>
+	</test>
+</suite>

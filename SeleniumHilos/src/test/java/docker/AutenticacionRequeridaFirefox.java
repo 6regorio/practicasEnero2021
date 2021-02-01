@@ -1,11 +1,9 @@
-package privado;
+package docker;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.SkipException;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterTest;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 /**
@@ -14,60 +12,18 @@ import org.testng.annotations.Test;
  * puede ser mediante DNI electrónico o clave permanente. La identificación en los demás casos será
  * siempre con clave permanente.
  */
-public class AutenticacionRequeridaPara {
+public class AutenticacionRequeridaFirefox {
   /**
    * Será el controlador del navegador usado Chrome/Firefox
    */
   public static WebDriver currentDriver;
-
-  public String browser;
-
-  public AutenticacionRequeridaPara(String browser) {
-    this.browser = browser;
-  }
-
-  /**
-   * Se ejecuta antes de comenzar todas las pruebas
-   */
-  @BeforeSuite
-  public void cargaPropiedadesIniciales() {
-    AutentificacionRequeridaFunciones.iniciarSesionPreguntandoDatos();
-  }
-
-  public void funcion() {
-    System.out.println("Sólo imprimir");
-    for (int i = 0; i < 10; i++) {
-      try {
-        Thread.sleep(1000);
-      } catch (InterruptedException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-      System.out.println("tiempo " + i);
-    }
-  }
-
 
   /**
    * Se ejecuta antes de comenzar las pruebas
    */
   @BeforeClass
   public void cargaPropiedades() {
-    switch (browser) {
-      case "Chrome":
-        currentDriver = AutentificacionRequeridaFunciones.driverC; // Uso el navegador de Chrome
-        break;
-      case "Firefox":
-        currentDriver = AutentificacionRequeridaFunciones.driverF; // Uso el navegador de Firefox
-        break;
-      case "Edge":
-        currentDriver = AutentificacionRequeridaFunciones.driverE; // Uso el navegador de Edge
-        break;
-      default:
-        System.out.println("No hay navegador seleccionado");
-        System.exit(1);
-        break;
-    }
+    currentDriver = AutentificacionRequeridaFunciones.driverF; // Uso el navegador de Firefox
   }
 
   /**
@@ -167,7 +123,7 @@ public class AutenticacionRequeridaPara {
   /**
    * Cierra los navegadores
    */
-  @AfterClass
+  @AfterSuite
   void tearDoown() {
     if (currentDriver != null) {
       currentDriver.quit();

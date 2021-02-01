@@ -1,7 +1,9 @@
-package privado;
+package docker;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -16,9 +18,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.opera.OperaOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -36,9 +39,9 @@ public class AutentificacionRequeridaFunciones {
    */
   public static WebDriver driverC;
   /**
-   * Será el controlador de Edge
+   * Será el controlador de Opera
    */
-  public static WebDriver driverE;
+  public static WebDriver driverO;
   /**
    * Será el controlador de Firefox
    */
@@ -49,6 +52,9 @@ public class AutentificacionRequeridaFunciones {
   public static String password;
   public static String navegador;
   public static String certificadoOClavePermanente;
+
+  public static String nodeUrl = "http://localhost:4444/wd/hub/";
+
 
   /**
    * Inicia sesión y comprueba que se haya realizado con los navegadores que se le pasan como
@@ -110,8 +116,9 @@ public class AutentificacionRequeridaFunciones {
 
   /**
    * Recorre las funciones que recopilan los datos necesarios para el arranque del programa
+   * @throws MalformedURLException 
    */
-  public static void iniciarSesionPreguntandoDatos() {
+  public static void iniciarSesionPreguntandoDatos() throws MalformedURLException {
     preguntarNavegadorAUtilizar();
 
     if (navegador.equals("Firefox") || navegador.equals("Todos")) {
@@ -126,45 +133,51 @@ public class AutentificacionRequeridaFunciones {
     }
 
     if (navegador.equals("Chrome")) {
-      System.setProperty("webdriver.chrome.driver",
-          "./src/test/resources/chromedriver/chromedriver.exe");
-      driverC = new ChromeDriver();
+
+
+      ChromeOptions capabilitiesC = new ChromeOptions();
+      driverC = new RemoteWebDriver(new URL(nodeUrl), capabilitiesC);
       driverC.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
       driverC.manage().window().maximize();
-      driverC.get("https://sescampre.jccm.es/portalsalud/app/inicio");
+
+
+
     } else if (navegador.equals("Firefox")) {
-      System.setProperty("webdriver.gecko.driver",
-          "./src/test/resources/firefoxdriver/geckodriver.exe");
-      driverF = new FirefoxDriver();
+
+      FirefoxOptions capabilitiesF = new FirefoxOptions();
+      driverF = new RemoteWebDriver(new URL(nodeUrl), capabilitiesF);
       driverF.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
       driverF.manage().window().maximize();
-      driverF.get("https://sescampre.jccm.es/portalsalud/app/inicio");
+
+
     } else if (navegador.equals("Edge")) {
-      System.setProperty("webdriver.edge.driver",
-          "./src/test/resources/msedgedriver/msedgedriver.exe");
-      driverE = new EdgeDriver();
-      driverE.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-      driverE.manage().window().maximize();
-      driverE.get("https://sescampre.jccm.es/portalsalud/app/inicio");
+
+      OperaOptions capabilitiesO = new OperaOptions();
+      driverO = new RemoteWebDriver(new URL(nodeUrl), capabilitiesO);
+      driverO.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+      driverO.manage().window().maximize();
+
+
+
     } else {
-      System.setProperty("webdriver.chrome.driver",
-          "./src/test/resources/chromedriver/chromedriver.exe");
-      driverC = new ChromeDriver();
+
+      ChromeOptions capabilitiesC = new ChromeOptions();
+      driverC = new RemoteWebDriver(new URL(nodeUrl), capabilitiesC);
       driverC.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
       driverC.manage().window().maximize();
-      driverC.get("https://sescampre.jccm.es/portalsalud/app/inicio");
-      System.setProperty("webdriver.gecko.driver",
-          "./src/test/resources/firefoxdriver/geckodriver.exe");
-      driverF = new FirefoxDriver();
+
+      FirefoxOptions capabilitiesF = new FirefoxOptions();
+      driverF = new RemoteWebDriver(new URL(nodeUrl), capabilitiesF);
       driverF.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
       driverF.manage().window().maximize();
-      driverF.get("https://sescampre.jccm.es/portalsalud/app/inicio");
-      System.setProperty("webdriver.edge.driver",
-          "./src/test/resources/msedgedriver/msedgedriver.exe");
-      driverE = new EdgeDriver();
-      driverE.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-      driverE.manage().window().maximize();
-      driverE.get("https://sescampre.jccm.es/portalsalud/app/inicio");
+
+      OperaOptions capabilitiesO = new OperaOptions();
+      driverO = new RemoteWebDriver(new URL(nodeUrl), capabilitiesO);
+      driverO.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+      driverO.manage().window().maximize();
+
+
+
     }
     baseURL = "https://sescampre.jccm.es/portalsalud/app/inicio";
   }
@@ -359,7 +372,7 @@ public class AutentificacionRequeridaFunciones {
             .click();
         currentDriver.findElement(By.xpath("//span[contains(.,'CITAS')]")).click();
         Assert.assertTrue(
-            currentDriver.findElement(By.xpath("//h2[contains(.,'DIGESTIVO')]")).isDisplayed());
+            currentDriver.findElement(By.xpath("//h2[contains(.,'MEDICO')]")).isDisplayed());
       }
     }
   }
@@ -378,7 +391,7 @@ public class AutentificacionRequeridaFunciones {
         currentDriver.findElement(By.xpath("//span[contains(.,'VACUNAS')]")).click();
         Assert.assertTrue(currentDriver
             .findElement(
-                By.xpath("//ion-col[contains(.,'No existen vacunas registradas en el sistema')]"))
+                By.xpath("//ion-col[contains(.,'Colera')]"))
             .isDisplayed());
       }
     }
@@ -440,4 +453,6 @@ public class AutentificacionRequeridaFunciones {
       }
     }
   }
+  
+  
 }

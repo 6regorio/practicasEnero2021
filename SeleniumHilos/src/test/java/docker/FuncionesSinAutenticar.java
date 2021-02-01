@@ -1,4 +1,4 @@
-package publico;
+package docker;
 
 import java.util.List;
 import java.util.Set;
@@ -56,11 +56,11 @@ public class FuncionesSinAutenticar {
         currentDriver.findElement(By.cssSelector("a .action-icon")).click();
 
 
-        try {
-          Thread.sleep(500);
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
+//        try {
+//          Thread.sleep(500);
+//        } catch (InterruptedException e) {
+//          e.printStackTrace();
+//        }
         
 
       //  WebDriverWait wait = new WebDriverWait(currentDriver, 30);
