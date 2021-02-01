@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
  */
 public class SinAutenticarOpera {
   /**
-   * Será el controlador de Chrome/Firefox/Chrome
+   * Será el controlador de Chrome/Firefox/Opera
    */
   public static WebDriver currentDriver;
 
@@ -40,8 +40,8 @@ public class SinAutenticarOpera {
    * Ejecuta la prueba
    */
   @Test(groups = "Comprobaciones sin iniciar sesión",
-      dependsOnMethods = "Edge_comprobarEnlaceCoronavirus")
-  public void Edge_comprobarClickTelefono() {
+      dependsOnMethods = "Opera_comprobarEnlaceCoronavirus")
+  public void Opera_comprobarClickTelefono() {
     FuncionesSinAutenticar.comprobarClickTelefono(currentDriver);
   }
 
@@ -49,7 +49,7 @@ public class SinAutenticarOpera {
    * Ejecuta la prueba
    */
   @Test(groups = "Comprobaciones sin iniciar sesión")
-  public void Edge_comprobarEnlaceCoronavirus() {
+  public void Opera_comprobarEnlaceCoronavirus() {
     if (currentDriver == null)
       throw new SkipException("Sin pruebas con Firefox");
     FuncionesSinAutenticar.comprobarEnlaceCoronavirus(currentDriver);
@@ -59,8 +59,8 @@ public class SinAutenticarOpera {
    * Ejecuta la prueba
    */
   @Test(groups = "Comprobaciones sin iniciar sesión",
-      dependsOnMethods = "Edge_comprobarEnlaceCoronavirus")
-  public void Edge_masPrivacidad() {
+      dependsOnMethods = "Opera_comprobarEnlaceCoronavirus")
+  public void Opera_masPrivacidad() {
     FuncionesSinAutenticar.masPrivacidad(currentDriver);
   }
 
@@ -68,8 +68,8 @@ public class SinAutenticarOpera {
    * Ejecuta la prueba
    */
   @Test(groups = "Comprobaciones sin iniciar sesión",
-      dependsOnMethods = "Edge_comprobarEnlaceCoronavirus")
-  public void Edge_masContacto() {
+      dependsOnMethods = "Opera_comprobarEnlaceCoronavirus")
+  public void Opera_masContacto() {
     FuncionesSinAutenticar.masContacto(currentDriver);
   }
 
@@ -77,8 +77,8 @@ public class SinAutenticarOpera {
    * Ejecuta la prueba
    */
   @Test(groups = "Comprobaciones sin iniciar sesión",
-      dependsOnMethods = "Edge_comprobarEnlaceCoronavirus")
-  public void Edge_masAyuda() {
+      dependsOnMethods = "Opera_comprobarEnlaceCoronavirus")
+  public void Opera_masAyuda() {
     FuncionesSinAutenticar.masAyuda(currentDriver);
   }
 
@@ -86,8 +86,8 @@ public class SinAutenticarOpera {
    * Ejecuta la prueba
    */
   @Test(groups = "Comprobaciones sin iniciar sesión",
-      dependsOnMethods = "Edge_comprobarEnlaceCoronavirus")
-  public void Edge_mostarNotificaciones() {
+      dependsOnMethods = "Opera_comprobarEnlaceCoronavirus")
+  public void Opera_mostarNotificaciones() {
     FuncionesSinAutenticar.mostarNotificaciones(currentDriver);
   }
 
@@ -95,8 +95,8 @@ public class SinAutenticarOpera {
    * Ejecuta la prueba
    */
   @Test(groups = "Comprobaciones sin iniciar sesión",
-      dependsOnMethods = "Edge_comprobarEnlaceCoronavirus")
-  public void Edge_paginaInicioCitaPreviaAtencionHospitalaria() {
+      dependsOnMethods = "Opera_comprobarEnlaceCoronavirus")
+  public void Opera_paginaInicioCitaPreviaAtencionHospitalaria() {
     FuncionesSinAutenticar.paginaInicioCitaPreviaAtencionHospitalaria(currentDriver);
   }
 
@@ -104,8 +104,8 @@ public class SinAutenticarOpera {
    * Ejecuta la prueba
    */
   @Test(groups = "Comprobaciones sin iniciar sesión",
-      dependsOnMethods = "Edge_comprobarEnlaceCoronavirus")
-  public void Edge_paginaInicioCitaPreviaAtencionPrimaria() {
+      dependsOnMethods = "Opera_comprobarEnlaceCoronavirus")
+  public void Opera_paginaInicioCitaPreviaAtencionPrimaria() {
     FuncionesSinAutenticar.paginaInicioCitaPreviaAtencionPrimaria(currentDriver);
   }
 
@@ -114,8 +114,8 @@ public class SinAutenticarOpera {
    */
   @Test(groups = "Búsqueda de farmacias", dataProvider = "EncoFarmProvider",
       dataProviderClass = FuncionesSinAutenticar.class,
-      dependsOnMethods = "Edge_comprobarEnlaceCoronavirus")
-  public void Edge_encuentraFarmaciaParametros(String provincia, String pueblo, String year,
+      dependsOnMethods = "Opera_comprobarEnlaceCoronavirus")
+  public void Opera_encuentraFarmaciaParametros(String provincia, String pueblo, String year,
       String mes, String dia) {
     FuncionesSinAutenticar.encuentraFarmaciaParametros(provincia, pueblo, year, mes, dia,
         currentDriver);

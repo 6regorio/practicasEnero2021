@@ -150,7 +150,7 @@ public class AutentificacionRequeridaFunciones {
       driverF.manage().window().maximize();
 
 
-    } else if (navegador.equals("Edge")) {
+    } else if (navegador.equals("Opera")) {
 
       OperaOptions capabilitiesO = new OperaOptions();
       driverO = new RemoteWebDriver(new URL(nodeUrl), capabilitiesO);
@@ -203,7 +203,7 @@ public class AutentificacionRequeridaFunciones {
    * Muestra una ventana que permite elegir qué navegador usar
    */
   private static void preguntarNavegadorAUtilizar() {
-    String[] navegadores = {"Chrome", "Firefox", "Edge", "Todos"};
+    String[] navegadores = {"Chrome", "Firefox", "Opera", "Todos"};
     Object selected = JOptionPane.showInputDialog(null, "¿Qué navegador desea usar?",
         "Elija navegador", JOptionPane.DEFAULT_OPTION, null, navegadores, "Chrome");
     if (selected != null) {

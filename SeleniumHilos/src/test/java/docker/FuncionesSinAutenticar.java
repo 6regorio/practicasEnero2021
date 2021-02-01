@@ -198,6 +198,11 @@ public class FuncionesSinAutenticar {
         currentDriver.get("https://sescampre.jccm.es/portalsalud/app/inicio");
         currentDriver.findElement(By.xpath("//span[contains(.,'PEDIR CITA')]")).click();
         currentDriver.findElement(By.xpath("//span[contains(.,'PRIMARIA')]")).click();
+        try {
+          Thread.sleep(500);
+        } catch (InterruptedException e) {
+          // TODO Auto-generated catch block
+        }
         currentDriver.switchTo().frame(0);
         WebElement imagentarjeta = currentDriver.findElement(By.id("tarjetaportada"));
         Assert.assertTrue(imagentarjeta.isDisplayed());
@@ -217,6 +222,11 @@ public class FuncionesSinAutenticar {
         currentDriver.get("https://sescampre.jccm.es/portalsalud/app/inicio");
         currentDriver.findElement(By.xpath("//span[contains(.,'PEDIR CITA')]")).click();
         currentDriver.findElement(By.xpath("//span[contains(.,'HOSPITALARIA')]")).click();
+        try {
+          Thread.sleep(500);
+        } catch (InterruptedException e) {
+          // TODO Auto-generated catch block
+        }
         currentDriver.switchTo().frame(0);
         Assert.assertEquals(currentDriver.findElement(By.id("ot1")).getText(),
             "Bienvenido a Citación Especializada");

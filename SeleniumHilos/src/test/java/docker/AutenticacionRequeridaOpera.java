@@ -30,7 +30,7 @@ public class AutenticacionRequeridaOpera {
    * Arranca la prueba. Inicio de sesión
    */
   @Test(priority = 1, groups = "Inicia sesión")
-  public void Edge_realizarAutenticacion() {
+  public void Opera_realizarAutenticacion() {
     if (currentDriver == null)
       throw new SkipException("Sin pruebas con Edge");
     AutentificacionRequeridaFunciones.realizarAutenticacion(currentDriver);
@@ -40,8 +40,8 @@ public class AutenticacionRequeridaOpera {
    * Arranca la prueba del DNI dentro de mi perfil, mis datos
    */
   @Test(priority = 2, groups = "Mi perfil privado",
-      dependsOnMethods = "Edge_realizarAutenticacion")
-  public void Edge_miPerfilMisDatosDniEscrito() {
+      dependsOnMethods = "Opera_realizarAutenticacion")
+  public void Opera_miPerfilMisDatosDniEscrito() {
     AutentificacionRequeridaFunciones.miPerfilMisDatosDniEscrito(currentDriver);
   }
 
@@ -49,8 +49,8 @@ public class AutenticacionRequeridaOpera {
    * Arranca la prueba del centro dentro de mi perfil, mis profesionales
    */
   @Test(priority = 3, groups = "Mi perfil privado",
-      dependsOnMethods = "Edge_realizarAutenticacion")
-  public void Edge_miPerfilMisProfesionalesCentroManzanares() {
+      dependsOnMethods = "Opera_realizarAutenticacion")
+  public void Opera_miPerfilMisProfesionalesCentroManzanares() {
     AutentificacionRequeridaFunciones.miPerfilMisProfesionalesCentroManzanares(currentDriver);
   }
 
@@ -58,56 +58,56 @@ public class AutenticacionRequeridaOpera {
    * Arranca la prueba. Ir a la carpeta de salud y entrar en informes
    */
   @Test(priority = 3, groups = "Mi perfil privado",
-      dependsOnMethods = "Edge_realizarAutenticacion")
-  public void Edge_historiaClinicaSNS() {
+      dependsOnMethods = "Opera_realizarAutenticacion")
+  public void Opera_historiaClinicaSNS() {
     AutentificacionRequeridaFunciones.historiaClinicaSNS(currentDriver);
   }
 
   /**
    * Arranca la prueba. Ir a la carpeta de salud y entrar en alergias
    */
-  @Test(priority = 4, groups = "Carpeta Salud", dependsOnMethods = "Edge_realizarAutenticacion")
-  public void Edge_comprobarCarpetaDeSaludAlergias() {
+  @Test(priority = 4, groups = "Carpeta Salud", dependsOnMethods = "Opera_realizarAutenticacion")
+  public void Opera_comprobarCarpetaDeSaludAlergias() {
     AutentificacionRequeridaFunciones.comprobarCarpetaDeSaludAlergias(currentDriver);
   }
 
   /**
    * Arranca la prueba. Ir a la carpeta de salud y entrar en informes
    */
-  @Test(priority = 4, groups = "Carpeta Salud", dependsOnMethods = "Edge_realizarAutenticacion")
-  public void Edge_comprobarCarpetaDeSaludInformes() {
+  @Test(priority = 4, groups = "Carpeta Salud", dependsOnMethods = "Opera_realizarAutenticacion")
+  public void Opera_comprobarCarpetaDeSaludInformes() {
     AutentificacionRequeridaFunciones.comprobarCarpetaDeSaludInformes(currentDriver);
   }
 
   /**
    * Arranca la prueba. Ir a la carpeta de salud y entrar en medicación
    */
-  @Test(priority = 4, groups = "Carpeta Salud", dependsOnMethods = "Edge_realizarAutenticacion")
-  public void Edge_comprobarCarpetaDeSaludMedicacion() {
+  @Test(priority = 4, groups = "Carpeta Salud", dependsOnMethods = "Opera_realizarAutenticacion")
+  public void Opera_comprobarCarpetaDeSaludMedicacion() {
     AutentificacionRequeridaFunciones.comprobarCarpetaDeSaludMedicacion(currentDriver);
   }
 
   /**
    * Arranca la prueba. Ir a la carpeta de salud y entrar en Mis Citas
    */
-  @Test(priority = 4, groups = "Carpeta Salud", dependsOnMethods = "Edge_realizarAutenticacion")
-  public void Edge_comprobarCarpetaDeSaludMisCitas() {
+  @Test(priority = 4, groups = "Carpeta Salud", dependsOnMethods = "Opera_realizarAutenticacion")
+  public void Opera_comprobarCarpetaDeSaludMisCitas() {
     AutentificacionRequeridaFunciones.comprobarCarpetaDeSaludMisCitas(currentDriver);
   }
 
   /**
    * Arranca la prueba. Ir a la carpeta de salud y entrar en vacunas
    */
-  @Test(priority = 4, groups = "Carpeta Salud", dependsOnMethods = "Edge_realizarAutenticacion")
-  public void Edge_comprobarCarpetaDeSaludVacunas() {
+  @Test(priority = 4, groups = "Carpeta Salud", dependsOnMethods = "Opera_realizarAutenticacion")
+  public void Opera_comprobarCarpetaDeSaludVacunas() {
     AutentificacionRequeridaFunciones.comprobarCarpetaDeSaludVacunas(currentDriver);
   }
 
   /**
    * Arranca la prueba. Ir a la carpeta de salud y entrar lista de espera
    */
-  @Test(priority = 4, groups = "Carpeta Salud", dependsOnMethods = "Edge_realizarAutenticacion")
-  public void Edge_comprobarCarpetaDeSaludListaEspera() {
+  @Test(priority = 4, groups = "Carpeta Salud", dependsOnMethods = "Opera_realizarAutenticacion")
+  public void Opera_comprobarCarpetaDeSaludListaEspera() {
     AutentificacionRequeridaFunciones.comprobarCarpetaDeSaludListaEspera(currentDriver);
   }
 
@@ -115,8 +115,8 @@ public class AutenticacionRequeridaOpera {
    * Arranca la prueba. Cierra la sesión y se asegura de que ha salido a la página principal
    */
   @Test(priority = 5, groups = "Cerrando sesión",
-      dependsOnMethods = "Edge_realizarAutenticacion")
-  public void Edge_cerrarSesion() {
+      dependsOnMethods = "Opera_realizarAutenticacion")
+  public void Opera_cerrarSesion() {
     AutentificacionRequeridaFunciones.cerrarSesion(currentDriver);
   }
 
