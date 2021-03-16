@@ -5,43 +5,5 @@
     "published": "boolean",
     "createdAt": "date",
     "comments": "Comment[]"
-   },
-    "diagnostico": {
-      "codigo": "string",
-      "descripcion": "string",
-      "id": 0
-    },
-    "estado": {
-      "id": 0,
-      "nombre": "string"
-    },
-    "fechaEnvio": 0,
-    "id": 0,
-    "paciente": {
-      "cip": "string",
-      "domicilio": "string",
-      "edad": 0,
-      "fechaNacimiento": "2021-03-16T15:32:27.831Z",
-      "genero": "string",
-      "id": 0,
-      "nass": "string",
-      "nhc": "string",
-      "nombre": "string",
-      "telefono": "string"
-    },
-    "prioridad": {
-      "id": 0,
-      "nombre": "string"
-    },
-    "profesionalDemandado": {
-      "cias": "string",
-      "correo": "string",
-      "nombre": "string",
-      "telefono": "string",
-      "usuario": "string"
-    },
-    "servicioDestino": {
-      "id": 0,
-      "nombre": "string"
-    }
-  }
+   }
+}
