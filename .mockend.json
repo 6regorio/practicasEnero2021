@@ -1,5 +1,5 @@
 {
-  "CentroDestino": {
+  "centroDestino": {
     "title": "string",
     "views": "int",
     "published": "boolean",
