@@ -1,8 +1,5 @@
 {
   "CentroDestino": {
-    "title": "string",
-    "views": "int",
-    "published": "boolean",
-    "createdAt": "date"
+    "nombre": "string"
    }
 }
