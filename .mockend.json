@@ -1,8 +1,11 @@
-
-  {
-    "Centro": {
-      "nombre": "string"
-    },
+{
+  "Centro": {
+    "title": "string",
+    "views": "int",
+    "published": "boolean",
+    "createdAt": "date",
+    "comments": "Comment[]"
+   },
     "diagnostico": {
       "codigo": "string",
       "descripcion": "string",
