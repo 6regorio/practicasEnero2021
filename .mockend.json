@@ -1,5 +1,38 @@
 {
   "CentroDestino": {
     "nombre": "string"
-   }
-}
+   },
+    "Diagnostico": {
+      "codigo": "string",
+      "descripcion": "string"
+    },
+    "Estado": {
+      "nombre": "string"
+    },
+    "FechaEnvio": {
+    },
+    "Paciente": {
+      "cip": "string",
+      "domicilio": "string",
+      "edad": "int",
+      "fechaNacimiento": "date",
+      "genero": "string",
+      "nass": "string",
+      "nhc": "string",
+      "nombre": "string",
+      "telefono": "string"
+    },
+    "Prioridad": {
+      "nombre": "string"
+    },
+    "ProfesionalDemandado": {
+      "cias": "string",
+      "correo": "string",
+      "nombre": "string",
+      "telefono": "string",
+      "usuario": "string"
+    },
+    "ServicioDestino": {
+      "nombre": "string"
+    }
+  }
