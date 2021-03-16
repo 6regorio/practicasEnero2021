@@ -1,7 +1,6 @@
 
   {
     "Centro": {
-      "id": 0,
       "nombre": "string"
     },
     "diagnostico": {
