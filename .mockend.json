@@ -9,7 +9,7 @@
   "Comment": {
     "body": "string",
     "post": "Post"
-  }
+  },
     "Prueba": {
     "cuerpo": "string",
     "habilitado": "boolean"
